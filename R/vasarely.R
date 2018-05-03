@@ -7,7 +7,7 @@
 #'
 #' @examples
 
-### do not forget: rm(list=ls())
+### do not forget: STR + L and rm(list=ls())
 
 ### now just trying something that works with test data :)
 
@@ -35,15 +35,27 @@ expected_probability
 testdata2 <- testdata
 # new column with allel combination
 testdata2$allel_combination <- paste(testdata$allel1,testdata$allel2)
-# delete both colums with redundant data
-testdata2$allel1 <- NULL
-testdata2$allel2 <- NULL
 #compute
 real_probability <- as.data.frame(table(testdata2$allel_combination)/nrow(testdata2))
-colnames(real_probability) <- c("allel_comb", "prob")
+colnames(real_probability) <- c("allel_comb", "real_prob")
 real_probability
 
+## put real probability and expected probability together into a dataframe
+probabilities <- real_probability
+probabilities$expected_prob <- as.vector(t(expected_probability))
+probabilities$allel1 <- substring(probabilities$allel_comb,1,1)
+probabilities$allel2 <- substring(probabilities$allel_comb,2)
+probabilities
 
+## create chart
+library("ggplot2")
+prob <- probabilities$expected_prob
+allel1 <- probabilities$allel1
+allel2 <- probabilities$allel2
+# create plot for expected probability with geom_reaster
+l <- ggplot(probabilities,aes(allel1, allel2))
+p <- l + geom_raster(aes(fill=prob), hjust = 0.5, vjust = 0.5, interpolate = FALSE)
+#print(p)
 
 vasarely <- function(dat){
 
