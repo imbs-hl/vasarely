@@ -54,11 +54,12 @@ prob_real <- probabilities$real_prob
 allel1 <- probabilities$allel1
 allel2 <- probabilities$allel2
 # create plot for expected probability with geom_reaster
-l <- ggplot(probabilities,aes(allel1, allel2))
-p <- l + geom_raster(aes(fill=prob_ex), hjust = 0.5, vjust = 0.5, interpolate = FALSE)
-#print(p)
-q <- p + geom_dotplot(aes(fill=prob_real),binwidth = 0.5,binaxis = "y")
-print(q)
+#l <- ggplot(probabilities,aes(allel1, allel2))
+#p <- l + geom_raster(aes(fill=prob_ex), hjust = 0.5, vjust = 0.5, interpolate = FALSE)
+#q <- p + geom_dotplot(aes(fill=prob_real), binwidth = 0.5, binaxis = "y")
+print(ggplot(probabilities,aes(allel1, allel2)) +
+        geom_raster(aes(fill=prob_ex), hjust = 0.5, vjust = 0.5, interpolate = FALSE) +
+        geom_dotplot(aes(fill=prob_real), binwidth = 0.8, binaxis = "y", stackdir='center', color = 0.01))
 
 vasarely <- function(dat){
 
