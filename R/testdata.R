@@ -9,4 +9,4 @@ allel2 <- sample(x, 200, replace = TRUE)
 two_allels <- data.frame(allel1, allel2)
 
 # save the dataframe, so we can always use the same data for testing
-write.csv(two_allels, file = "testdata")
+write.csv(two_allels, file = "testdata2", quote=F, row.names=F)
