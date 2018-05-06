@@ -13,7 +13,6 @@
 vasarely <- function(dat){
   # prepare data: save input in dataframe and name columns to work with
   dat <- as.data.frame(dat)
-  print(ncol(dat))
   colnames(dat) <- c("allel1", "allel2")
 
   ## compute a priori probability
