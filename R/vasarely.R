@@ -12,7 +12,8 @@
 
 vasarely <- function(dat){
   # prepare data: save input in dataframe and name columns to work with
-  dat <- dat
+  dat <- as.data.frame(dat)
+  print(ncol(dat))
   colnames(dat) <- c("allel1", "allel2")
 
   ## compute a priori probability
@@ -47,6 +48,6 @@ vasarely <- function(dat){
           geom_dotplot(aes(fill=prob_real), binwidth = 0.8, binaxis = "y", stackdir='center', color = 0.01))
 }
 
-# load second testdata (without column X) and test plot function
-testdata2 <- as.data.frame(read.csv("testdata2"))
-vasarely(testdata2)
+# load testdata (without column X) and test plot function
+testdata <- as.data.frame(read.csv("testdata_new"))
+vasarely(testdata)
