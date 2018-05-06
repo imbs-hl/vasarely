@@ -44,7 +44,8 @@ vasarely <- function(dat){
   library("ggplot2")
   print(ggplot(real_probability,aes(allel1, allel2)) +
           geom_raster(aes(fill=prob_ex), hjust = 0.5, vjust = 0.5, interpolate = FALSE) +
-          geom_dotplot(aes(fill=prob_real), binwidth = 0.8, binaxis = "y", stackdir='center', color = 0.01))
+          geom_dotplot(aes(fill=prob_real), binwidth = 0.8, binaxis = "y", stackdir='center', color = 0.01) +
+          labs(fill="probability"))
 }
 
 # load testdata (without column X) and test plot function
