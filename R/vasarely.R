@@ -10,17 +10,14 @@
 ### do not forget: STR + L and rm(list=ls())
 
 
-vasarely <- function(dat, grey_value){
+vasarely <- function(dat, colour = NULL){
   # save input
   data <- as.data.frame(dat)
-  grey <- grey_value
+  color <- colour
 
   # check input data
   if(ncol(data) != 2){
     print("Input data must have exactly two columns!")
-    return()
-  } else if(grey != TRUE && grey != FALSE){
-    print("Parameter for grey_value can only be TRUE or FALSE!")
     return()
   }
 
@@ -60,13 +57,13 @@ vasarely <- function(dat, grey_value){
           geom_dotplot(aes(fill=prob_real), binwidth = 0.98, binaxis = "y", stackdir='center', color = 0.01) +
           labs(fill="probability") +
           scale_x_discrete(position = "top", expand = c(0,0)) + scale_y_discrete(expand = c(0,0))
- # if color of chart should be grey values
- if (grey_value == TRUE){
+ # if no parameter for color take grey values
+ if (is.null(color)){
    color <- grey.colors(256, start = 0, end = 1)
    p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
  }else{
- # do nothing and take blue standard values
-   #p <- p + scale_fill_gradientn(colours = blues9, limits = c(0,1))
+ # take color
+   p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
  }
   p
  return(p)
@@ -80,13 +77,13 @@ testdata <- as.data.frame(read.csv("testdata_new"))
 
 ## test data with more than two columns
 #testdata3 <- as.data.frame(read.csv("testdata"))
-#vasarely(testdata3,TRUE)
+#vasarely(testdata3,blue9)
 
 ## test data with less than two columns
 #testdata4 <- as.data.frame(read.csv("testdata_new"))
 #testdata4$allel2 <- NULL
-#vasarely(testdata4, TRUE)
+#vasarely(testdata4, blue9)
 
 # test chart with grey values
-vasarely(testdata, FALSE)
+vasarely(testdata)
 
