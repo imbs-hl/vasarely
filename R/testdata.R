@@ -9,10 +9,10 @@ allel2 <- sample(x, 200, replace = TRUE)
 two_allels <- data.frame(allel1, allel2)
 
 # save the dataframe, so we can always use the same data for testing
-write.csv(two_allels, file = "testdata3", row.names=F)
+write.csv(two_allels, file = "testdata5", row.names=F)
 
 
 # modifiy first testdata for test of the vasarely function: delete first column
-testdata2 <- as.data.frame(read.csv("testdata"))
-testdata2$X <- NULL
-write.csv(testdata2, file = "testdata_new", row.names=F)
+#testdata2 <- as.data.frame(read.csv("testdata"))
+#testdata2$X <- NULL
+#write.csv(testdata2, file = "testdata_new", row.names=F)

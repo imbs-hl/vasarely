@@ -19,6 +19,12 @@ vasarely <- function(dat, colour = NULL){
   if(ncol(data) != 2){
     print("Input data must have exactly two columns!")
     return()
+  }else if(!is.character(color) && !is.null(color)){
+    print("Colour data must be a character vector!")
+    return()
+  }else if(length(color) < 2 && !is.null(color)){
+    print("Colour vector must have more than one element!")
+    return()
   }
 
 
@@ -56,7 +62,9 @@ vasarely <- function(dat, colour = NULL){
           geom_raster(aes(fill=prob_ex), hjust = 0.5, vjust = 0.5, interpolate = FALSE) +
           geom_dotplot(aes(fill=prob_real), binwidth = 0.98, binaxis = "y", stackdir='center', color = 0.01) +
           labs(fill="probability") +
-          scale_x_discrete(position = "top", expand = c(0,0)) + scale_y_discrete(expand = c(0,0))
+          scale_x_discrete(position = "top", expand = c(0,0)) + scale_y_discrete(expand = c(0,0)) +
+          theme(legend.text=element_text(size = 8),legend.title=element_text(size = 10, face = "bold"))
+
  # if no parameter for color take grey values
  if (is.null(color)){
    color <- grey.colors(256, start = 0, end = 1)
@@ -70,19 +78,19 @@ vasarely <- function(dat, colour = NULL){
 }
 
 # load testdata (without column X) and test plot function
-testdata <- as.data.frame(read.csv("testdata_new"))
+testdata <- as.data.frame(read.csv("testdata5"))
 
 ## test grey_value parameter
 #vasarely(testdata, testdata)
 
 ## test data with more than two columns
 #testdata3 <- as.data.frame(read.csv("testdata"))
-#vasarely(testdata3,blue9)
+#vasarely(testdata3,blues9)
 
 ## test data with less than two columns
 #testdata4 <- as.data.frame(read.csv("testdata_new"))
 #testdata4$allel2 <- NULL
-#vasarely(testdata4, blue9)
+#vasarely(testdata4, blues9)
 
 # test chart with grey values
 vasarely(testdata)
