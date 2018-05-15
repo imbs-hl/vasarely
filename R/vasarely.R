@@ -67,7 +67,7 @@ vasarely <- function(dat, colour = NULL){
 
  # if no parameter for color take grey values
  if (is.null(color)){
-   color <- grey.colors(256, start = 0, end = 1)
+   color <- grey.colors(256, start = 1, end = 0)
    p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
  }else{
  # take color
@@ -78,6 +78,7 @@ vasarely <- function(dat, colour = NULL){
 }
 
 # load testdata (without column X) and test plot function
+setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/R")
 testdata <- as.data.frame(read.csv("testdata5"))
 
 ## test grey_value parameter
@@ -93,5 +94,7 @@ testdata <- as.data.frame(read.csv("testdata5"))
 #vasarely(testdata4, blues9)
 
 # test chart with grey values
-vasarely(testdata)
+#vasarely(testdata,blues9)
+p <- vasarely(testdata)
+p + ggtitle("vasarely")
 
