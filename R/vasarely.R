@@ -10,10 +10,12 @@
 ### do not forget: STR + L and rm(list=ls())
 
 
-vasarely <- function(dat, colour = NULL){
+vasarely <- function(dat, colour = NULL, name_xaxix = NULL, name_yaxis = NULL){
   # save input
   data <- as.data.frame(dat)
   color <- colour
+  name_x <- name_xaxix
+  name_y <- name_yaxis
 
   # check input data
   if(ncol(data) != 2){
@@ -24,6 +26,9 @@ vasarely <- function(dat, colour = NULL){
     return()
   }else if(length(color) < 2 && !is.null(color)){
     print("Colour vector must have more than one element!")
+    return()
+  }else if((!is.null(name_x) && !is.character(name_x)) || (!is.null(name_y) && !is.character(name_y)) ){
+    print("Name_xaxis and name_yaxis must be characters!")
     return()
   }
 
@@ -73,6 +78,17 @@ vasarely <- function(dat, colour = NULL){
  # take color
    p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
  }
+
+ # if new name for x-axis is given in parameters
+ if(!is.null(name_x)){
+   p <- p + labs(x = name_x)
+ }
+
+ # if new name for y-axis is given in parameters
+ if(!is.null(name_y)){
+   p <- p + labs(y = name_y)
+ }
+
   p
  return(p)
 }
@@ -95,6 +111,6 @@ testdata <- as.data.frame(read.csv("testdata5"))
 
 # test chart with grey values
 #vasarely(testdata,blues9)
-p <- vasarely(testdata)
-p + ggtitle("vasarely")
+vasarely(testdata)
+#p + ggtitle("vasarely")
 
