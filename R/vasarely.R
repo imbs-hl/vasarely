@@ -63,12 +63,17 @@ vasarely <- function(dat, colour = NULL, name_xaxix = NULL, name_yaxis = NULL){
 
   ## create plot for expected and real probability with geom_reaster and geom_dotplot
   library("ggplot2")
- p <-  ggplot(real_probability,aes(allel1, allel2)) +
-          geom_raster(aes(fill=prob_ex), hjust = 0.5, vjust = 0.5, interpolate = FALSE) +
-          geom_dotplot(aes(fill=prob_real), binwidth = 0.98, binaxis = "y", stackdir='center', color = 0.01) +
-          labs(fill="probability") +
-          scale_x_discrete(position = "top", expand = c(0,0)) + scale_y_discrete(expand = c(0,0)) +
-          theme(legend.text=element_text(size = 8),legend.title=element_text(size = 10, face = "bold"))
+  library("forcats")
+  p <- ggplot(real_probability,aes(x = allel1, y = forcats::fct_rev(allel2))) +
+          geom_raster(aes(fill = prob_ex), hjust = 0.5, vjust = 0.5, interpolate = FALSE) +
+          geom_dotplot(aes(fill = prob_real), binwidth = 0.90, binaxis = "y", stackdir = 'center', color = 0.01) +
+          labs(fill = "probability", y = "allel2") +
+          scale_x_discrete(position = "top", expand = c(0,0)) +
+          scale_y_discrete(expand = c(0,0)) +
+          #scale_y_reverse() +
+          theme(legend.text = element_text(size = 8),legend.title = element_text(size = 10, face = "bold"))
+
+
 
  # if no parameter for color take grey values
  if (is.null(color)){
