@@ -11,29 +11,33 @@
 
 
 vasarely <- function(dat, colour = NULL, name_xaxix = NULL, name_yaxis = NULL){
-  # save input
+  ## save input
   data <- as.data.frame(dat)
   color <- colour
   name_x <- name_xaxix
   name_y <- name_yaxis
 
-  # check input data
+  ## check input data
+  # check if input data have to columns
   if(ncol(data) != 2){
     print("Input data must have exactly two columns!")
     return()
+  # check if color vector contains character
   }else if(!is.character(color) && !is.null(color)){
     print("Colour data must be a character vector!")
     return()
+  # check if color vector has more than one element
   }else if(length(color) < 2 && !is.null(color)){
     print("Colour vector must have more than one element!")
     return()
+  # check if names of x- and y-axix are characters
   }else if((!is.null(name_x) && !is.character(name_x)) || (!is.null(name_y) && !is.character(name_y)) ){
     print("Name_xaxis and name_yaxis must be characters!")
     return()
   }
 
 
-  #name columns to work with
+  # name columns to work with
   colnames(data) <- c("allel1", "allel2")
 
   ## compute a priori probability
@@ -61,16 +65,31 @@ vasarely <- function(dat, colour = NULL, name_xaxix = NULL, name_yaxis = NULL){
   allel2 <- substring(real_probability$allel_comb,2)
 
 
+
   ## create plot for expected and real probability with geom_reaster and geom_dotplot
+  # libraries needed for plotting
   library("ggplot2")
   library("forcats")
+
+  # create plot and turn arount y-axis, so the origin of the plot is top left
   p <- ggplot(real_probability,aes(x = allel1, y = forcats::fct_rev(allel2))) +
-          geom_raster(aes(fill = prob_ex), hjust = 0.5, vjust = 0.5, interpolate = FALSE) +
-          geom_dotplot(aes(fill = prob_real), binwidth = 0.90, binaxis = "y", stackdir = 'center', color = 0.01) +
+
+          # create plot with squares for the expected probability,
+          geom_raster(aes(fill = prob_ex), hjust = 0.5, vjust = 0.5) +
+
+          # create plot with dots for the real probability,
+          # binwidth: regulate size of dots, binaxis: direction to group dots
+          # stackdir: dots in the center of squares, color: regulate the lines around the dots
+          geom_dotplot(aes(fill = prob_real), binwidth = 0.90, binaxis = "y", stackdir = 'center', color = 0.001) +
+
+          # title of legend, title of y-axis
           labs(fill = "probability", y = "allel2") +
+
+          # put x-axis to the top of the plot
           scale_x_discrete(position = "top", expand = c(0,0)) +
           scale_y_discrete(expand = c(0,0)) +
-          #scale_y_reverse() +
+
+          # fix size of legend text and size of legend title, legend title in bold
           theme(legend.text = element_text(size = 8),legend.title = element_text(size = 10, face = "bold"))
 
 
@@ -80,7 +99,7 @@ vasarely <- function(dat, colour = NULL, name_xaxix = NULL, name_yaxis = NULL){
    color <- grey.colors(256, start = 1, end = 0)
    p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
  }else{
- # take color
+ # else take color
    p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
  }
 
@@ -98,6 +117,7 @@ vasarely <- function(dat, colour = NULL, name_xaxix = NULL, name_yaxis = NULL){
  return(p)
 }
 
+##################### do some tests######################
 # load testdata (without column X) and test plot function
 setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/R")
 testdata <- as.data.frame(read.csv("testdata5"))
