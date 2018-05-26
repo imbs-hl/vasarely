@@ -1,20 +1,23 @@
 #' vasarely chart
-#'
-#' @param dat the input data. For example, a matrix of genetic snp data
+#' @description vasarely produces a so called vasarely chart. E.g. for some (genetic) input data expected and real probabilty of (allel) frequencies can be calculated and plotted. For all possible combinations (of allels) the expected probabilty is described by a geom_raster plot. Each cell of the plot has a color which depends on the value of the expected probability. The real probability is described by a dot in the corresponding cell which also has a color that depends on the calculated probability. The chart and its colors for the two probabilities helps to check how expected and real probability differ from each other.
+#' @param dat The input data to create the chart, e.g. genetic snp data. The input data must have exactly to columns.
+#' @param colour The optional colors which should be used for the chart, e.g. blues9. Colour must be a character vector with at least two colors. If colour is NULL grey values will be taken.
+#' @param name_xaxis The optional title for the x-axis of the plot.
+#' @param name_yaxis The optional title for the y-axix of the plot
 #'
 #' @return returns the calculated vasarely chart of the input data
-#' @export
+#' @export ??
 #'
-#' @examples
+#' @examples siehe unten, noch ergaenzen
 
 ### do not forget: STR + L and rm(list=ls())
 
 
-vasarely <- function(dat, colour = NULL, name_xaxix = NULL, name_yaxis = NULL){
+vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
   ## save input
   data <- as.data.frame(dat)
   color <- colour
-  name_x <- name_xaxix
+  name_x <- name_xaxis
   name_y <- name_yaxis
 
   ## check input data
@@ -96,10 +99,12 @@ vasarely <- function(dat, colour = NULL, name_xaxix = NULL, name_yaxis = NULL){
 
  # if no parameter for color take grey values
  if (is.null(color)){
+   # grey values: probability = 1 is black, prob = 0 is white
    color <- grey.colors(256, start = 1, end = 0)
+   # spread colors from probability 0 to 1
    p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
  }else{
- # else take color
+ # else take color and spread it from probability 0 to 1
    p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
  }
 
@@ -139,3 +144,12 @@ testdata <- as.data.frame(read.csv("testdata5"))
 vasarely(testdata)
 #p + ggtitle("vasarely")
 
+## example
+  # create data
+ # a1 <- c(rep("A", each = 25), rep("B", each = 75))
+  #a2 <- c(rep("A", each = 50), rep("B", each = 50))
+  #data <- data.frame(allel1 = a1, allel2 = a2)
+
+  # use function
+ #v <- vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+ #v
