@@ -53,7 +53,18 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
 
 
   ## compute expected probability
-  prob_ex <- as.vector(a_priori_prob %*% t(a_priori_prob))
+    expected_prob <- as.vector(a_priori_prob %*% t(a_priori_prob))
+  prob_ex <- as.data.frame(expected_prob)
+  # add possible allel combination to a new column
+  col <- colnames(num_allel)
+  n <- length(col)
+  prob_ex$allel1 <- rep(col, each = n)
+  prob_ex$allel2 <- col
+  prob_ex$allel_comb <- paste(prob_ex$allel1, prob_ex$allel2)
+  prob_ex$allel1 <- NULL
+  prob_ex$allel2 <- NULL
+
+
 
 
   ## compute real probability
@@ -62,23 +73,28 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
   #compute
   real_probability <- as.data.frame(table(data$allel_combination)/nrow(data))
   colnames(real_probability) <- c("allel_comb", "real_prob")
+  # check if there are missing allel combinations in real probability compared to expected, set values to 0
+  prob <- merge(x = prob_ex, y = real_probability, by.x = "allel_comb", by.y = "allel_comb", all = TRUE)
+  prob[is.na(prob)] <- 0
+
   # vectors needed for plottig later
-  prob_real <- real_probability$real_prob
-  allel1 <- substring(real_probability$allel_comb,1,1)
-  allel2 <- substring(real_probability$allel_comb,2)
-
-
+  prob_real <- prob$real_prob
+  prob_expected <- prob$expected_prob
+  allel1 <- substring(prob$allel_comb,1,1)
+  allel2 <- substring(prob$allel_comb,2)
 
   ## create plot for expected and real probability with geom_reaster and geom_dotplot
   # libraries needed for plotting
   library("ggplot2")
   library("forcats")
 
+
   # create plot and turn arount y-axis, so the origin of the plot is top left
-  p <- ggplot(real_probability,aes(x = allel1, y = forcats::fct_rev(allel2))) +
+  # changed real_probability to prob_real
+  p <- ggplot(prob, aes(x = allel1, y = forcats::fct_rev(allel2))) +
 
           # create plot with squares for the expected probability,
-          geom_raster(aes(fill = prob_ex), hjust = 0.5, vjust = 0.5) +
+          geom_raster(aes(fill = prob_expected), hjust = 0.5, vjust = 0.5) +
 
           # create plot with dots for the real probability,
           # binwidth: regulate size of dots, binaxis: direction to group dots
@@ -125,7 +141,7 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
 ##################### do some tests######################
 # load testdata (without column X) and test plot function
 setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/R")
-testdata <- as.data.frame(read.csv("testdata5"))
+#testdata <- as.data.frame(read.csv("testdata5"))
 
 ## test grey_value parameter
 #vasarely(testdata, testdata)
@@ -141,15 +157,15 @@ testdata <- as.data.frame(read.csv("testdata5"))
 
 # test chart with grey values
 #vasarely(testdata,blues9)
-vasarely(testdata)
+#vasarely(testdata)
 #p + ggtitle("vasarely")
 
 ## example
   # create data
- # a1 <- c(rep("A", each = 25), rep("B", each = 75))
-  #a2 <- c(rep("A", each = 50), rep("B", each = 50))
-  #data <- data.frame(allel1 = a1, allel2 = a2)
+  a1 <- c(rep("A", each = 25), rep("B", each = 75))
+  a2 <- c(rep("A", each = 50), rep("B", each = 50))
+  data <- data.frame(allel1 = a1, allel2 = a2)
 
   # use function
- #v <- vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
- #v
+ v <- vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+ v
