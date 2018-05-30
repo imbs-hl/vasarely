@@ -10,10 +10,9 @@
 #'
 #' @examples siehe unten, noch ergaenzen
 
-### do not forget: STR + L and rm(list=ls())
-
 
 vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
+
   ## save input
   data <- as.data.frame(dat)
   color <- colour
@@ -164,8 +163,8 @@ setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/R")
   # create data
   a1 <- c(rep("A", each = 25), rep("B", each = 75))
   a2 <- c(rep("A", each = 50), rep("B", each = 50))
-  data <- data.frame(allel1 = a1, allel2 = a2)
+  data <- data.frame(a1, a2)
 
   # use function
- v <- vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
- v
+  vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+
