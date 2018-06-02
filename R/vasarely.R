@@ -83,6 +83,7 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
   prob <- merge(x = prob_ex, y = real_probability, by.x = "allel_comb", by.y = "allel_comb", all = TRUE)
   prob[is.na(prob)] <- 0
 
+
   # vectors needed for plottig later
   prob_real <- prob$real_prob
   prob_expected <- prob$expected_prob
@@ -166,7 +167,7 @@ setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/R")
 #vasarely(testdata)
 #p + ggtitle("vasarely")
 
-# example with numbers
+## example with numbers--> does not work with ten numbers but with 9????
 a <- as.character(rep(c(1:10), each = 10))
 b <- as.character(sample(c(1:10), 100, replace = TRUE))
 data2 <- data.frame(a, b)
