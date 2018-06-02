@@ -8,7 +8,14 @@
 #' @return returns the calculated vasarely chart of the input data
 #' @export ??
 #'
-#' @examples siehe unten, noch ergaenzen
+#' @examples
+#' # create data
+#' a1 <- c(rep("A", each = 25), rep("B", each = 75))
+#' a2 <- c(rep("A", each = 50), rep("B", each = 50))
+#' data <- data.frame(a1, a2)
+#'
+#' # use function
+#' vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
 
 
 vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
@@ -159,12 +166,9 @@ setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/R")
 #vasarely(testdata)
 #p + ggtitle("vasarely")
 
-## example
-  # create data
-  a1 <- c(rep("A", each = 25), rep("B", each = 75))
-  a2 <- c(rep("A", each = 50), rep("B", each = 50))
-  data <- data.frame(a1, a2)
+# example with numbers
+a <- as.character(rep(c(1:10), each = 10))
+b <- as.character(sample(c(1:10), 100, replace = TRUE))
+data2 <- data.frame(a, b)
 
-  # use function
-  vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
-
+vasarely(data2)
