@@ -59,7 +59,7 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
 
 
   ## compute expected probability
-    expected_prob <- as.vector(a_priori_prob %*% t(a_priori_prob))
+  expected_prob <- as.vector(a_priori_prob %*% t(a_priori_prob))
   prob_ex <- as.data.frame(expected_prob)
   # add possible allel combination to a new column
   col <- colnames(num_allel)
@@ -67,15 +67,13 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
   prob_ex$allel1 <- rep(col, each = n)
   prob_ex$allel2 <- col
   prob_ex$allel_comb <- paste(prob_ex$allel1, prob_ex$allel2)
-  prob_ex$allel1 <- NULL
-  prob_ex$allel2 <- NULL
-
 
 
 
   ## compute real probability
   # new column with allel combination
   data$allel_combination <- paste(data$allel1,data$allel2)
+  print(data)
   #compute
   real_probability <- as.data.frame(table(data$allel_combination)/nrow(data))
   colnames(real_probability) <- c("allel_comb", "real_prob")
@@ -84,13 +82,8 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
   prob[is.na(prob)] <- 0
 
 
-  # vectors needed for plottig later
-  prob_real <- prob$real_prob
-  prob_expected <- prob$expected_prob
-  allel1 <- substring(prob$allel_comb,1,1)
-  allel2 <- substring(prob$allel_comb,2)
 
-  ## create plot for expected and real probability with geom_reaster and geom_dotplot
+   ## create plot for expected and real probability with geom_reaster and geom_dotplot
   # libraries needed for plotting
   library("ggplot2")
   library("forcats")
@@ -98,15 +91,15 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
 
   # create plot and turn arount y-axis, so the origin of the plot is top left
   # changed real_probability to prob_real
-  p <- ggplot(prob, aes(x = allel1, y = forcats::fct_rev(allel2))) +
+  p <- ggplot(prob, aes(x = prob_ex$allel1, y = forcats::fct_rev(prob_ex$allel2))) +
 
           # create plot with squares for the expected probability,
-          geom_raster(aes(fill = prob_expected), hjust = 0.5, vjust = 0.5) +
+          geom_raster(aes(fill = prob$expected_prob), hjust = 0.5, vjust = 0.5) +
 
           # create plot with dots for the real probability,
           # binwidth: regulate size of dots, binaxis: direction to group dots
           # stackdir: dots in the center of squares, color: regulate the lines around the dots
-          geom_dotplot(aes(fill = prob_real), binwidth = 0.90, binaxis = "y", stackdir = 'center', color = 0.001) +
+          geom_dotplot(aes(fill = prob$real_prob), binwidth = 0.90, binaxis = "y", stackdir = 'center', color = 0.001) +
 
           # title of legend, title of y-axis
           labs(fill = "probability", y = "allel2") +
@@ -168,8 +161,8 @@ setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/R")
 #p + ggtitle("vasarely")
 
 ## example with numbers--> does not work with ten numbers but with 9????
-a <- as.character(rep(c(1:10), each = 10))
-b <- as.character(sample(c(1:10), 100, replace = TRUE))
+a <- rep(c(1:10), each = 10)
+b <- sample(c(1:10), 100, replace = TRUE)
 data2 <- data.frame(a, b)
 
 vasarely(data2)
