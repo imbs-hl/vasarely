@@ -102,7 +102,7 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
           geom_dotplot(aes(fill = prob$real_prob), binwidth = 0.90, binaxis = "y", stackdir = 'center', color = 0.001) +
 
           # title of legend, title of y-axis
-          labs(fill = "probability", y = "allel2") +
+          labs(fill = "probability", x = "allel 1", y = "allel 2") +
 
           # put x-axis to the top of the plot
           scale_x_discrete(position = "top", expand = c(0,0)) +
@@ -160,9 +160,20 @@ setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/R")
 #vasarely(testdata)
 #p + ggtitle("vasarely")
 
-## example with numbers--> does not work with ten numbers but with 9????
+## example with numbers
 a <- rep(c(1:10), each = 10)
 b <- sample(c(1:10), 100, replace = TRUE)
 data2 <- data.frame(a, b)
-
 vasarely(data2)
+
+#a1 <- c(rep("11", each = 25), rep("1", each = 75))
+#a2 <- c(rep("11", each = 50), rep("1", each = 50))
+#data2 <- data.frame(a1, a2)
+#vasarely(data2)
+
+#a3 <- c(rep("A", each = 25), rep("B", each = 75))
+#a4 <- c(rep("A", each = 50), rep("B", each = 50))
+#data3 <- data.frame(a3, a4)
+#vasarely(data3)
+
+
