@@ -73,10 +73,10 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
   ## compute real probability
   # new column with allel combination
   data$allel_combination <- paste(data$allel1,data$allel2)
-  print(data)
   #compute
   real_probability <- as.data.frame(table(data$allel_combination)/nrow(data))
   colnames(real_probability) <- c("allel_comb", "real_prob")
+
   # check if there are missing allel combinations in real probability compared to expected, set values to 0
   prob <- merge(x = prob_ex, y = real_probability, by.x = "allel_comb", by.y = "allel_comb", all = TRUE)
   prob[is.na(prob)] <- 0
