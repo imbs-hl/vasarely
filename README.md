@@ -11,7 +11,7 @@ Alexandra Banach
 ```install.packages("vasarely")
 ```
 
-### Usage
+#### Usage
 
 An example for the usage of the vasarely package can be found in ?vasarely. It is also explained which format for the input data is required and which optional parameters can be chosen for the function. If you have any questions or if you find any bugs, please contact me. 
 
