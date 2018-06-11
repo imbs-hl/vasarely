@@ -4,14 +4,11 @@ Alexandra Banach
 
 
 ## Introduction
-Vasarely is a implementation to produce a so called vasarely chart. It was developed by Manaster et al. in 1999 to check Hardy-Weinberg-Law for genetic data and to discover null alleles. Thus, for some genetic input data expected and real probabilty of allel frequencies can be calculated and plotted. For all possible combinations of allels the expected probabilty is described by a geom_raster plot. Each cell of the plot has a color which depends on the value of the expected probability. The real probability is described by a dot in the corresponding cell which also has a color that depends on the calculated probability. The chart and its colors for the two probabilities helps to check how expected and real probability differ from each other.
-
- The more the colors differ from each other the more the both probabilities differ. In general the function can be used to represent expected and real probability for categorial variables but not only genetic data.
+Vasarely is a implementation to produce a so called vasarely chart. It was developed by Manaster et al. in 1999 to check Hardy-Weinberg-Law for genetic data and to discover null alleles. Thus, for some genetic input data expected and real probabilty of allel frequencies can be calculated and plotted. For all possible combinations of allels the expected probabilty is described by a geom_raster plot. Each cell of the plot has a color which depends on the value of the expected probability. The real probability is described by a dot in the corresponding cell which also has a color that depends on the calculated probability. The chart and its colors for the two probabilities helps to check how expected and real probability differ from each other. The more the color differ from each other the more the both probabilities differ. In general the function can be used to represent expected and real probability for categorial variables but not only genetic data.
 
 
 ## Installation
 To install the vasarely R package from CRAN, just run
-
 
 ```install.packages("vasarely")
 ```
