@@ -10,8 +10,10 @@ Vasarely is a implementation to produce a so called vasarely chart. It was devel
 ## Installation
 To install the vasarely R package from CRAN, just run
 
-```install.packages("vasarely")
-```
+
+
+	install.packages("vasarely")
+
 
 
 ## Usage
