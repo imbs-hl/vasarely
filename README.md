@@ -8,18 +8,16 @@ Vasarely is a implementation to produce a so called vasarely chart. It was devel
 
 
 ## Installation
-To install the vasarely R package from CRAN, just run
+To install the vasarely R package from GitHub using devtools, just run
 
 
 
-	install.packages("vasarely")
-
-
+	devtools::install_github("imbs-hl/vasarely")
 
 ## Usage
 
 
-An example for the usage of the vasarely package can be found in ?vasarely. It is also explained which format for the input data is required and which optional parameters can be chosen for the function. If you have any questions or if you find any bugs, please contact me. 
+An example for the usage of the vasarely package can be found in help function. It is also explained which format for the input data is required and which optional parameters can be chosen for the function. If you have any questions or if you find any bugs, please contact us. 
 
 
 ## References
