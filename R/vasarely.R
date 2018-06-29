@@ -6,7 +6,6 @@
 #' @param name_yaxis The optional title for the y-axix of the plot
 #'
 #' @return returns the calculated vasarely chart of the input data
-#' @export ??
 #'
 #' @examples
 #' # create data
@@ -91,7 +90,7 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
 
   # create plot and turn arount y-axis, so the origin of the plot is top left
   # changed real_probability to prob_real
-  p <- ggplot(prob, aes(x = prob_ex$allel1, y = forcats::fct_rev(prob_ex$allel2))) +
+  p <- ggplot(prob, aes(x = prob_ex$allel2, y = forcats::fct_rev(prob_ex$allel1))) +
 
           # create plot with squares for the expected probability,
           geom_raster(aes(fill = prob$expected_prob), hjust = 0.5, vjust = 0.5) +
@@ -102,7 +101,7 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
           geom_dotplot(aes(fill = prob$real_prob), binwidth = 0.90, binaxis = "y", stackdir = 'center', color = 0.001) +
 
           # title of legend, title of y-axis
-          labs(fill = "probability", x = "allel 1", y = "allel 2") +
+          labs(fill = "probability", x = "allel 2", y = "allel 1") +
 
           # put x-axis to the top of the plot
           scale_x_discrete(position = "top", expand = c(0,0)) +
@@ -176,4 +175,6 @@ vasarely(data2)
 #data3 <- data.frame(a3, a4)
 #vasarely(data3)
 
+#check if package was successfully installed
+#"vasarely" %in% rownames(installed.packages())
 
