@@ -1,0 +1,60 @@
+---
+title: "Vasarely Tests"
+author: "Alexandra Banach 649005"
+date: "29 Juni 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely")
+library("vasarely")
+```
+
+load testdata (without column X) and test plot function
+```{r}
+testdata <- as.data.frame(read.csv("testdata5"))
+```
+test grey value parameter with false input
+```{r}
+vasarely(testdata, testdata)
+```
+test data with more than two columns
+```{r}
+testdata3 <- as.data.frame(read.csv("testdata"))
+vasarely(testdata3,blues9)
+```
+test data with less than two columns
+```{r}
+testdata4 <- as.data.frame(read.csv("testdata_new"))
+testdata4$allel2 <- NULL
+vasarely(testdata4, blues9)
+```
+test data with grey values
+```{r}
+vasarely(testdata,blues9)
+vasarely(testdata)
+```
+test data with numbers
+```{r}
+ 
+a <- rep(c(1:10), each = 10)
+b <- sample(c(1:10), 100, replace = TRUE)
+data2 <- data.frame(a, b)
+vasarely(data2)
+```
+
+official example
+
+```{r }
+a3 <- c(rep("A", each = 25), rep("B", each = 75))
+a4 <- c(rep("A", each = 50), rep("B", each = 50))
+data3 <- data.frame(a3, a4)
+vasarely(data3)
+```
+
+Check if package was successfully installed
+```{r}
+"vasarely" %in% rownames(installed.packages())
+```
+
