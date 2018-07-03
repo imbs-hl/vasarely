@@ -106,6 +106,8 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
           # put x-axis to the top of the plot
           scale_x_discrete(position = "top", expand = c(0,0)) +
           scale_y_discrete(expand = c(0,0)) +
+          # x-axis and y-axis should always have the same length so the fields are squares
+          coord_fixed(ratio = 1/1) +
 
           # fix size of legend text and size of legend title, legend title in bold
           theme(legend.text = element_text(size = 8),legend.title = element_text(size = 10, face = "bold"))
