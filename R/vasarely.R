@@ -182,8 +182,3 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, l
 
  return(p)
 }
-
-a3 <- c(rep("A", each = 25), rep("B", each = 75))
-a4 <- c(rep("A", each = 50), rep("B", each = 50))
-data3 <- data.frame(a3, a4)
-vasarely(data3)
