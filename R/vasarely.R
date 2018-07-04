@@ -3,7 +3,9 @@
 #' @param dat The input data to create the chart, e.g. genetic snp data. The input data must have exactly to columns.
 #' @param colour The optional colors which should be used for the chart, e.g. blues9. Colour must be a character vector with at least two colors. If colour is NULL grey values will be taken.
 #' @param name_xaxis The optional title for the x-axis of the plot.
-#' @param name_yaxis The optional title for the y-axix of the plot
+#' @param name_yaxis The optional title for the y-axix of the plot.
+#' @param lower_color_value The lower limit for spreading the color over the probability values. It must be a number between 0 and 1.
+#' @param upper_color_value The upper limit for spreading the color over the probability values. It must be a number between 0 and 1.
 #'
 #' @return returns the calculated vasarely chart of the input data
 #'
@@ -17,7 +19,7 @@
 #' vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
 
 
-vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
+vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, lower_color_value = NULL, upper_color_value = NULL){
 
   ## save input
   data <- as.data.frame(dat)
@@ -25,24 +27,55 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
   name_x <- name_xaxis
   name_y <- name_yaxis
 
+  # fill values if no parameters are chosen
+  if(is.null(lower_color_value)){
+    lower_color_value <- 0
+  }
+  if(is.null(upper_color_value)){
+    upper_color_value <- 1
+  }
+
+
+  library(assertive)
   ## check input data
   # check if input data have to columns
   if(ncol(data) != 2){
     print("Input data must have exactly two columns!")
     return()
   # check if color vector contains character
-  }else if(!is.character(color) && !is.null(color)){
+  } else if(!is.character(color) && !is.null(color)){
     print("Colour data must be a character vector!")
     return()
   # check if color vector has more than one element
-  }else if(length(color) < 2 && !is.null(color)){
+  } else if(length(color) < 2 && !is.null(color)){
     print("Colour vector must have more than one element!")
     return()
   # check if names of x- and y-axix are characters
-  }else if((!is.null(name_x) && !is.character(name_x)) || (!is.null(name_y) && !is.character(name_y)) ){
+  } else if((!is.null(name_x) && !is.character(name_x)) || (!is.null(name_y) && !is.character(name_y)) ){
     print("Name_xaxis and name_yaxis must be characters!")
     return()
+  # check if lower_color_value is a number
+  } else if(!is_a_number(lower_color_value)){
+    print("lower_color_value must be a number!")
+    return()
+  # check if lower_color_value is between 0 and 1
+  } else if(lower_color_value > 1 || lower_color_value < 0){
+    print("lower_color_value must be between 0 and 1")
+    return()
+  # check if upper_color_value is a number
+  } else if(!is_a_number(upper_color_value)){
+    print("upper_color_value must be a number!")
+    return()
+  # check if upper_color_value is between 0 and 1
+  } else if(upper_color_value > 1 || upper_color_value < 0){
+    print("upper_color_value must be between 0 and 1!")
+    return()
+  # check if lower_color_value is smaller than upper_color_value
+  } else if(!is.null(lower_color_value) && !is.null(upper_color_value) && lower_color_value >= upper_color_value){
+    print("lower_color_value must be smaller than upper_color_ value!")
+    return()
   }
+
 
 
   # name columns to work with
@@ -81,8 +114,14 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
   prob[is.na(prob)] <- 0
 
 
+ # check if probability values correspond to the chosen limits for spreading the colors
+  if(min(expected_prob) < lower_color_value || min(real_probability$real_prob) < lower_color_value ||
+     max(expected_prob) > upper_color_value || max(real_probability$real_prob > upper_color_value)) {
+    print("Chosen limits for color_values do not correspond to calculated probabilities!")
+    return()
+  }
 
-   ## create plot for expected and real probability with geom_reaster and geom_dotplot
+  ## create plot for expected and real probability with geom_reaster and geom_dotplot
   # libraries needed for plotting
   library("ggplot2")
   library("forcats")
@@ -110,7 +149,9 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
           coord_fixed(ratio = 1/1) +
 
           # fix size of legend text and size of legend title, legend title in bold
-          theme(legend.text = element_text(size = 8),legend.title = element_text(size = 10, face = "bold"))
+          theme(legend.text = element_text(size = 8),legend.title = element_text(size = 10, face = "bold"), legend.key.size = unit(0.8, 'lines')) +
+          theme(legend.box.just = "center")
+
 
 
 
@@ -119,10 +160,10 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
    # grey values: probability = 1 is black, prob = 0 is white
    color <- grey.colors(256, start = 1, end = 0)
    # spread colors from probability 0 to 1
-   p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
+   p <- p + scale_fill_gradientn(colours = color, limits = c(lower_color_value, upper_color_value))
  }else{
  # else take color and spread it from probability 0 to 1
-   p <- p + scale_fill_gradientn(colours = color, limits = c(0,1))
+   p <- p + scale_fill_gradientn(colours = color, limits = c(lower_color_value, upper_color_value))
  }
 
  # if new name for x-axis is given in parameters
@@ -135,6 +176,5 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL){
    p <- p + labs(y = name_y)
  }
 
-  p
  return(p)
 }
