@@ -176,5 +176,14 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, l
    p <- p + labs(y = name_y)
  }
 
+## calculate Chi-Squared-Test and put result into plot:
+  chi <- chisq.test(x = data$allel1, y = data$allel2, correct = FALSE)
+  print(chi)
+
  return(p)
 }
+
+a3 <- c(rep("A", each = 25), rep("B", each = 75))
+a4 <- c(rep("A", each = 50), rep("B", each = 50))
+data3 <- data.frame(a3, a4)
+vasarely(data3)
