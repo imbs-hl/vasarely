@@ -33,7 +33,7 @@ vasarely(testdata4, blues9)
 ```
 test data with grey values
 ```{r}
-vasarely(testdata,blues9)
+vasarely(testdata, blues9)
 vasarely(testdata)
 ```
 test data with numbers
@@ -58,42 +58,55 @@ Check if package was successfully installed
 ```{r}
 "vasarely" %in% rownames(installed.packages())
 ```
-Normal Marker, ten alleles
+Testcase upper/ lower color value: not a number
 ```{r}
-letters <- c('A','B','C','D','E','F','G','H','I','J')
-a1 <- sample(letters, 100, replace = TRUE)
-a2 <- sample(letters, 100, replace = TRUE)
-vasarely_data1 <- data.frame(a1,a2)
-vasarely(vasarely_data1)
+vasarely(data3, upper_color_value = a)
+vasarely(data3, upper_color_value = "2")
+vasarely(data3, lower_color_value = a)
+vasarely(data3, lower_color_value = "2")
 ```
-marker with null alleles
+Testcase upper/ lower color value: is a vector
 ```{r}
-a1 <- rep(letters, mal=10)
-a2 <- rep(letters, mal=10)
-a1 <- c(a1,sample(letters, 10, replace = TRUE))
-a2 <- c(a2,sample(letters, 10, replace = TRUE))
-vasarely_data2 <- data.frame(a1,a2)
-vasarely(vasarely_data2)
+vasarely(data3, upper_color_value = c(0:1))
+vasarely(data3, lower_color_value = c(0:1))
 ```
-adjacent alleles
+Testcase upper/ lower color value: only upper value chosen
 ```{r}
-
+vasarely(data3, upper_color_value = 0.9)
 ```
-AB-deficit (uncorrected): 25xAA, 10xAB, 20xBA, 55xBB
+Testcase upper/ lower color value: only lower value chosen
 ```{r}
-a1 <- c(rep("A", each = 35), rep("B", each = 75))
-a2 <- c(rep("A", each = 25), rep("B", each = 10),
-        rep("A", each = 20), rep("B", each = 55))
-vasarely_data3 <- data.frame(a1,a2)
-vasarely(vasarely_data3)
+vasarely(data3, lower_color_value = 0.1)
 ```
-AB-deficit(corrected)
+Testcase upper/ lower color value: both values chosen right
 ```{r}
-a1 <- c(rep("A", each = 50), rep("B", each = 60))
-a2 <- c(rep("A", each = 25), rep("B", each = 25),
-        rep("A", each = 20), rep("B", each = 40
-                                 ))
-vasarely_data4 <- data.frame(a1,a2)
-vasarely(vasarely_data4)
+vasarely(data3, lower_color_value = 0.1, upper_color_value = 0.9)
 ```
-
+Testcase upper/ lower color value: value > 1
+```{r}
+vasarely(data3, lower_color_value = 1.1)
+vasarely(data3, upper_color_value = 1.1)
+```
+Testcase upper/ lower color value: value < 0
+```{r}
+vasarely(data3, lower_color_value = -0.1)
+vasarely(data3, upper_color_value = -0.1)
+```
+Testcase upper/ lower color value: lower color value bigger than upper color value
+```{r}
+vasarely(data3, lower_color_value = 1, upper_color_value = 0)
+```
+Testcase upper/ lower color value: 
+lower color value does not correspond with prob. values
+for testdata: 
+min expected prob: 0.140625 , min real prob: 0.25, 
+max expected prob: 0.390625 , max expected prob: 0.5
+```{r}
+vasarely(data3, lower_color_value = 0.15, upper_color_value = 0.9)
+vasarely(data3, lower_color_value = 0.3, upper_color_value = 0.9)
+```
+Testcase upper/ lower color value: upper color value does not correspond with prob. values
+```{r}
+vasarely(data3, lower_color_value = 0.1, upper_color_value = 0.3)
+vasarely(data3, lower_color_value = 0.1, upper_color_value = 0.45)
+```
