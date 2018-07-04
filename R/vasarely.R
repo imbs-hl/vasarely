@@ -149,8 +149,10 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, l
           coord_fixed(ratio = 1/1) +
 
           # fix size of legend text and size of legend title, legend title in bold
-          theme(legend.text = element_text(size = 8),legend.title = element_text(size = 10, face = "bold"), legend.key.size = unit(0.8, 'lines')) +
-          theme(legend.box.just = "center")
+          theme(legend.text = element_text(size = 8),legend.title = element_text(size = 10, face = "bold")) +
+          # put title of the legend to the top, so it is readable
+          guides(fill = guide_legend(title.position = "top"))
+
 
 
 
@@ -182,3 +184,7 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, l
 
  return(p)
 }
+a3 <- c(rep("A", each = 25), rep("B", each = 75))
+a4 <- c(rep("A", each = 50), rep("B", each = 50))
+data3 <- data.frame(a3, a4)
+vasarely(data3)
