@@ -140,7 +140,7 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, l
           geom_dotplot(aes(fill = prob$real_prob), binwidth = 0.90, binaxis = "y", stackdir = 'center', color = 0.001) +
 
           # title of legend, title of y-axis
-          labs(fill = "probability", x = "allel 2", y = "allel 1") +
+          labs(fill = "probability", x = "allele 2", y = "allele 1") +
 
           # put x-axis to the top of the plot
           scale_x_discrete(position = "top", expand = c(0,0)) +
@@ -178,13 +178,15 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, l
    p <- p + labs(y = name_y)
  }
 
-## calculate Chi-Squared-Test and put result into plot:
+  ## calculate Chi-Squared-Test and put result into plot:
+  library(grid)
   chi <- chisq.test(x = data$allel1, y = data$allel2, correct = FALSE)
-  print(chi)
+  p <- p + labs(caption = paste0( "Chi-squared test: p-value ", round(x = chi$p.value, digits = 8), ", statistic ", round(x=chi$statistic, digits = 4)))
+
 
  return(p)
 }
-a3 <- c(rep("A", each = 25), rep("B", each = 75))
+a3 <- c(rep("A", each =  25), rep("B", each = 75))
 a4 <- c(rep("A", each = 50), rep("B", each = 50))
 data3 <- data.frame(a3, a4)
 vasarely(data3)
