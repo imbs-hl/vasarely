@@ -116,8 +116,10 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, l
 
  # check if probability values correspond to the chosen limits for spreading the colors
   if(min(expected_prob) < lower_color_value || min(real_probability$real_prob) < lower_color_value ||
-     max(expected_prob) > upper_color_value || max(real_probability$real_prob > upper_color_value)) {
+     max(expected_prob) > upper_color_value || max(real_probability$real_prob) > upper_color_value){
     print("Chosen limits for color_values do not correspond to calculated probabilities!")
+    print(paste0("Choose a lower value which is less than ", min(min(expected_prob), min(real_probability$real_prob))))
+    print(paste0("Choose an upper value which is at least ", max(max(expected_prob), max(real_probability$real_prob))))
     return()
   }
 
