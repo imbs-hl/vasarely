@@ -3,7 +3,7 @@
 #' @param dat The input data to create the chart, e.g. genetic snp data. The input data must have exactly to columns.
 #' @param colour The optional colors which should be used for the chart, e.g. blues9. Colour must be a character vector with at least two colors. If colour is NULL grey values will be taken.
 #' @param name_xaxis The optional title for the x-axis of the plot.
-#' @param name_yaxis The optional title for the y-axix of the plot.
+#' @param name_yaxis The optional title for the y-axis of the plot.
 #' @param lower_color_value The lower limit for spreading the color over the probability values. It must be a number between 0 and 1.
 #' @param upper_color_value The upper limit for spreading the color over the probability values. It must be a number between 0 and 1.
 #'
