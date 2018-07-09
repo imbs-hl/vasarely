@@ -1,0 +1,50 @@
+---
+title: "Data_simulation_vasarely"
+author: "Alexandra Banach 649005"
+date: "4 Juli 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/R")
+library("vasarely")
+```
+Normal Marker, ten alleles
+```{r}
+letters <- c('A','B','C','D','E','F','G','H','I','J')
+a1 <- sample(letters, 100, replace = TRUE)
+a2 <- sample(letters, 100, replace = TRUE)
+vasarely_data1 <- data.frame(a1,a2)
+vasarely(vasarely_data1)
+```
+marker with null alleles
+```{r}
+a1 <- rep(letters, mal=10)
+a2 <- rep(letters, mal=10)
+a1 <- c(a1,sample(letters, 10, replace = TRUE))
+a2 <- c(a2,sample(letters, 10, replace = TRUE))
+vasarely_data2 <- data.frame(a1,a2)
+vasarely(vasarely_data2)
+```
+adjacent alleles
+```{r}
+
+```
+AB-deficit (uncorrected): 25xAA, 10xAB, 20xBA, 55xBB
+```{r}
+a1 <- c(rep("A", each = 35), rep("B", each = 75))
+a2 <- c(rep("A", each = 25), rep("B", each = 10),
+        rep("A", each = 20), rep("B", each = 55))
+vasarely_data3 <- data.frame(a1,a2)
+vasarely(vasarely_data3)
+```
+AB-deficit(corrected)
+```{r}
+a1 <- c(rep("A", each = 50), rep("B", each = 60))
+a2 <- c(rep("A", each = 25), rep("B", each = 25),
+        rep("A", each = 20), rep("B", each = 40
+                                 ))
+vasarely_data4 <- data.frame(a1,a2)
+vasarely(vasarely_data4)
+```
