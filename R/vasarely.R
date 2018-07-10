@@ -19,11 +19,10 @@
 #' vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
 
 
-vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, lower_color_value = NULL, upper_color_value = NULL){
+vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, lower_color_value = NULL, upper_color_value = NULL){
 
   ## save input
-  data <- as.data.frame(dat)
-  color <- colour
+  data <- as.data.frame(data)
   name_x <- name_xaxis
   name_y <- name_yaxis
 
@@ -40,39 +39,39 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, l
   ## check input data
   # check if input data have to columns
   if(ncol(data) != 2){
-    print("Input data must have exactly two columns!")
+    message("Input data must have exactly two columns!")
     return()
   # check if color vector contains character
   } else if(!is.character(color) && !is.null(color)){
-    print("Colour data must be a character vector!")
+    message("Colour data must be a character vector!")
     return()
   # check if color vector has more than one element
   } else if(length(color) < 2 && !is.null(color)){
-    print("Colour vector must have more than one element!")
+    message("Colour vector must have more than one element!")
     return()
   # check if names of x- and y-axix are characters
   } else if((!is.null(name_x) && !is.character(name_x)) || (!is.null(name_y) && !is.character(name_y)) ){
-    print("Name_xaxis and name_yaxis must be characters!")
+    message("Name_xaxis and name_yaxis must be characters!")
     return()
   # check if lower_color_value is a number
   } else if(!is_a_number(lower_color_value)){
-    print("lower_color_value must be a number!")
+    message("lower_color_value must be a number!")
     return()
   # check if lower_color_value is between 0 and 1
   } else if(lower_color_value > 1 || lower_color_value < 0){
-    print("lower_color_value must be between 0 and 1")
+    message("lower_color_value must be between 0 and 1!")
     return()
   # check if upper_color_value is a number
   } else if(!is_a_number(upper_color_value)){
-    print("upper_color_value must be a number!")
+    message("upper_color_value must be a number!")
     return()
   # check if upper_color_value is between 0 and 1
   } else if(upper_color_value > 1 || upper_color_value < 0){
-    print("upper_color_value must be between 0 and 1!")
+    message("upper_color_value must be between 0 and 1!")
     return()
   # check if lower_color_value is smaller than upper_color_value
   } else if(!is.null(lower_color_value) && !is.null(upper_color_value) && lower_color_value >= upper_color_value){
-    print("lower_color_value must be smaller than upper_color_ value!")
+    message("lower_color_value must be smaller than upper_color_ value!")
     return()
   }
 
@@ -117,9 +116,9 @@ vasarely <- function(dat, colour = NULL, name_xaxis = NULL, name_yaxis = NULL, l
  # check if probability values correspond to the chosen limits for spreading the colors
   if(min(expected_prob) < lower_color_value || min(real_probability$real_prob) < lower_color_value ||
      max(expected_prob) > upper_color_value || max(real_probability$real_prob) > upper_color_value){
-    print("Chosen limits for color_values do not correspond to calculated probabilities!")
-    print(paste0("Choose a lower value which is less than ", min(min(expected_prob), min(real_probability$real_prob))))
-    print(paste0("Choose an upper value which is at least ", max(max(expected_prob), max(real_probability$real_prob))))
+    message("Chosen limits for color_values do not correspond to calculated probabilities!")
+    message(paste0("Choose a lower value which is less than ", min(min(expected_prob), min(real_probability$real_prob))))
+    message(paste0("Choose an upper value which is at least ", max(max(expected_prob), max(real_probability$real_prob))))
     return()
   }
 
