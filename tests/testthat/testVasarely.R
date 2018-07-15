@@ -13,6 +13,10 @@ example <- data.frame(a1, a2)
 a <- rep(c(1:10), each = 10)
 b <- sample(c(1:10), 100, replace = TRUE)
 numbers <- data.frame(a, b)
+#empty testdata
+empty_data <- testdata
+empty_data$allel1 <- NULL
+empty_data$allel2 <- NULL
 
 context("package")
 test_that("package is successfully installed", {
@@ -24,20 +28,24 @@ test_that("testdata have x columns", {
   expect_equal(ncol(testdata), 2)
   expect_equal(ncol(testdata_less_columns), 1)
   expect_equal(ncol(testdata_more_columns), 3)
+  expect_equal(ncol(empty_data), 0)
 })
 
 context("columns")
 test_that("testdata have two columns", {
+  expect_message(vasarely(empty_data), "Input data must have exactly two columns!", fixed = TRUE)
   expect_message(vasarely(testdata_less_columns), "Input data must have exactly two columns!", fixed = TRUE)
   expect_message(vasarely(testdata_more_columns), "Input data must have exactly two columns!", fixed = TRUE)
 })
 
 context("color")
 test_that("color parameter input", {
-  expect_message(vasarely(testdata, testdata), "Colour data must be a character vector!")
-  expect_message(vasarely(testdata, 0), "Colour data must be a character vector!")
-  expect_message(vasarely(testdata, c(3:6)), "Colour data must be a character vector!")
-  expect_message((vasarely(testdata, "a")), "Colour vector must have more than one element!")
+  expect_message(vasarely(testdata, testdata), "Color data must be a character vector!")
+  expect_message(vasarely(testdata, 0), "Color data must be a character vector!")
+  expect_message(vasarely(testdata, c(3:6)), "Color data must be a character vector!")
+  expect_message((vasarely(testdata, "a")), "Color vector must have more than one element!")
+  expect_message(vasarely(testdata, c("yellow")), "Color vector must have more than one element!")
+  expect_message(vasarely(testdata, list("yellow", "red")), "Color data must be a character vector!")
   })
 
 context("greyvalueparameter")

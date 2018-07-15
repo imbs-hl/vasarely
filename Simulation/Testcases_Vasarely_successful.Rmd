@@ -43,15 +43,15 @@ Testdaten mit color-Parameter:
 ```{r}
 vasarely(testdata, blues9)
 ```
-Beispiel aus Dokumentation mit oberem Farbwert für Spreizung:
+Beispiel aus Dokumentation mit oberem Farbwert fuer Spreizung:
 ```{r}
 vasarely(example, upper_color_value = 0.9)
 ```
-Beispiel aus Dokumentation mit unterem Farbwert für Spreizung:
+Beispiel aus Dokumentation mit unterem Farbwert fuer Spreizung:
 ```{r}
 vasarely(example, lower_color_value = 0.1)
 ```
-Beispiel aus Dokumentation mit beiden Farbwerten für Spreizung
+Beispiel aus Dokumentation mit beiden Farbwerten fuer Spreizung
 ```{r}
 vasarely(example, lower_color_value = 0.1, upper_color_value = 0.9)
 ```
@@ -60,3 +60,7 @@ Beispiel: Alle moeglichen Parameter wurden uebergeben:
 vasarely(data = example, color = blues9, name_xaxis = "a2", name_yaxis = "a1", 
          lower_color_value = 0.1, upper_color_value = 0.9)
 ```
+```{r}
+vasarely(data = example, color = list("red", "yellow"))
+```
+

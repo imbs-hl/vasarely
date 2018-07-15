@@ -43,13 +43,13 @@ vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, l
     return()
   # check if color vector contains character
   } else if(!is.character(color) && !is.null(color)){
-    message("Colour data must be a character vector!")
+    message("Color data must be a character vector!")
     return()
   # check if color vector has more than one element
   } else if(length(color) < 2 && !is.null(color)){
-    message("Colour vector must have more than one element!")
+    message("Color vector must have more than one element!")
     return()
-  # check if names of x- and y-axix are characters
+  # check if names of x- and y-axis are characters
   } else if((!is.null(name_x) && !is.character(name_x)) || (!is.null(name_y) && !is.character(name_y)) ){
     message("Name_xaxis and name_yaxis must be characters!")
     return()
@@ -180,7 +180,6 @@ vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, l
  }
 
   ## calculate Chi-Squared-Test and put result into plot:
-  library(grid)
   chi <- chisq.test(x = data$allel1, y = data$allel2, correct = FALSE)
   p <- p + labs(caption = paste0( "Chi-squared test: p-value ", round(x = chi$p.value, digits = 8), ", statistic ", round(x=chi$statistic, digits = 4)))
 
