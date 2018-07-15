@@ -8,6 +8,10 @@ vasarely(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL,
   lower_color_value = NULL, upper_color_value = NULL)
 }
 \arguments{
+\item{data}{The input data to create the chart, e.g. genetic snp data. The input data must have exactly to columns.}
+
+\item{color}{The optional colors which should be used for the chart, e.g. blues9. Color must be a character vector with at least two colors. If color is NULL grey values will be taken.}
+
 \item{name_xaxis}{The optional title for the x-axis of the plot.}
 
 \item{name_yaxis}{The optional title for the y-axis of the plot.}
@@ -15,10 +19,6 @@ vasarely(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL,
 \item{lower_color_value}{The lower limit for spreading the color over the probability values. It must be a number between 0 and 1.}
 
 \item{upper_color_value}{The upper limit for spreading the color over the probability values. It must be a number between 0 and 1.}
-
-\item{dat}{The input data to create the chart, e.g. genetic snp data. The input data must have exactly to columns.}
-
-\item{colour}{The optional colors which should be used for the chart, e.g. blues9. Colour must be a character vector with at least two colors. If colour is NULL grey values will be taken.}
 }
 \value{
 returns the calculated vasarely chart of the input data
@@ -33,5 +33,5 @@ a2 <- c(rep("A", each = 50), rep("B", each = 50))
 data <- data.frame(a1, a2)
 
 # use function
-vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+vasarely(data = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
 }

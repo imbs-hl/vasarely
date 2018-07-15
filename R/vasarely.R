@@ -1,7 +1,7 @@
 #' vasarely chart
 #' @description vasarely produces a so called vasarely chart. E.g. for some (genetic) input data expected and real probabilty of (allel) frequencies can be calculated and plotted. For all possible combinations (of allels) the expected probabilty is described by a geom_raster plot. Each cell of the plot has a color which depends on the value of the expected probability. The real probability is described by a dot in the corresponding cell which also has a color that depends on the calculated probability. The chart and its colors for the two probabilities helps to check how expected and real probability differ from each other.
-#' @param dat The input data to create the chart, e.g. genetic snp data. The input data must have exactly to columns.
-#' @param colour The optional colors which should be used for the chart, e.g. blues9. Colour must be a character vector with at least two colors. If colour is NULL grey values will be taken.
+#' @param data The input data to create the chart, e.g. genetic snp data. The input data must have exactly to columns.
+#' @param color The optional colors which should be used for the chart, e.g. blues9. Color must be a character vector with at least two colors. If color is NULL grey values will be taken.
 #' @param name_xaxis The optional title for the x-axis of the plot.
 #' @param name_yaxis The optional title for the y-axis of the plot.
 #' @param lower_color_value The lower limit for spreading the color over the probability values. It must be a number between 0 and 1.
@@ -16,7 +16,7 @@
 #' data <- data.frame(a1, a2)
 #'
 #' # use function
-#' vasarely(dat = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+#' vasarely(data = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
 
 
 vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, lower_color_value = NULL, upper_color_value = NULL){
