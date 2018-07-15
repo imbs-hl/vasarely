@@ -16,7 +16,7 @@
 #' data <- data.frame(a1, a2)
 #'
 #' # use function
-#' vasarely(dat = data, colour = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+#' vasarely(dat = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
 
 
 vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, lower_color_value = NULL, upper_color_value = NULL){
