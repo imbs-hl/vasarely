@@ -80,8 +80,7 @@ test_that("upper and lower grey value parameters work", {
   # min expected prob: 0.03705625 , min real prob: 0.025
   # max expected prob: 0.046225  , max real prob: 0.065
   expect_message(vasarely(testdata, lower_color_value = 0.0, upper_color_value = 0.01), "Chosen limits for color_values do not correspond to calculated probabilities!")
-  #expect_message(vasarely(example, lower_color_value = 0.1, upper_color_value = 0.2), "Chosen limits for color_values do not correspond to calculated probabilities!")
-  # color values both over maximum probability
+    # color values both over maximum probability
   # min expected prob: 0.140625 , min real prob: 0.0
   # max expected prob: 0.390625 , max real prob: 0.5
   expect_message(vasarely(example, lower_color_value = 0.8, upper_color_value = 0.9), "Chosen limits for color_values do not correspond to calculated probabilities!")
