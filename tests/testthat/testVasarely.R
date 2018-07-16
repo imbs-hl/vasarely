@@ -66,14 +66,17 @@ test_that("upper and lower grey value parameters work", {
   expect_message(vasarely(example, upper_color_value = -0.1), "upper_color_value must be between 0 and 1!", fixed = TRUE)
   # lower value is bigger than upper
   expect_message(vasarely(example, lower_color_value = 1, upper_color_value = 0), "lower_color_value must be smaller than upper_color_ value!", fixed = TRUE)
-  # lower color value does not correspond with prob. values for testdata:
-  # min expected prob: 0.140625 , min real prob: 0.25,
+  # equal values
+  expect_message(vasarely(example, lower_color_value = 0.4, upper_color_value = 0.4), "lower_color_value must be smaller than upper_color_ value!", fixed = TRUE)
+  # color values both below minimum probability
+  # min expected prob: 0.03705625 , min real prob: 0.025
+  # max expected prob: 0.046225  , max real prob: 0.065
+  expect_message(vasarely(testdata, lower_color_value = 0.0, upper_color_value = 0.01), "Chosen limits for color_values do not correspond to calculated probabilities!")
+  #expect_message(vasarely(example, lower_color_value = 0.1, upper_color_value = 0.2), "Chosen limits for color_values do not correspond to calculated probabilities!")
+  # color values both over maximum probability
+  # min expected prob: 0.140625 , min real prob: 0.0
   # max expected prob: 0.390625 , max real prob: 0.5
-  expect_message(vasarely(example, lower_color_value = 0.140625, upper_color_value = 0.4), "Chosen limits for color_values do not correspond to calculated probabilities!")
-  expect_message(vasarely(example, lower_color_value = 0.15, upper_color_value = 0.6), "Chosen limits for color_values do not correspond to calculated probabilities!")
-  # upper color value does not correspond with prob. values
-  expect_message(vasarely(example, lower_color_value = 0.1, upper_color_value = 0.3), "Chosen limits for color_values do not correspond to calculated probabilities!")
-  expect_message(vasarely(example, lower_color_value = 0.1, upper_color_value = 0.45), "Chosen limits for color_values do not correspond to calculated probabilities!")
+  expect_message(vasarely(example, lower_color_value = 0.8, upper_color_value = 0.9), "Chosen limits for color_values do not correspond to calculated probabilities!")
   })
 
 #devtools::test()
