@@ -27,9 +27,9 @@ a2 <- c(a2,sample(letters, 10, replace = TRUE))
 vasarely_data2 <- data.frame(a1,a2)
 vasarely(vasarely_data2)
 ```
-adjacent alleles
+Normal Marker, ten alleles, skaliert
 ```{r}
-
+vasarely(vasarely_data1, lower_color_value = 0, upper_color_value = 0.15)
 ```
 AB-deficit (uncorrected): 25xAA, 10xAB, 20xBA, 55xBB
 ```{r}

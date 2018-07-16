@@ -60,3 +60,7 @@ Beispiel: Alle moeglichen Parameter wurden uebergeben:
 vasarely(data = example, color = blues9, name_xaxis = "a2", name_yaxis = "a1", 
          lower_color_value = 0.1, upper_color_value = 0.9)
 ```
+Testdaten: 
+```{r}
+vasarely(testdata, color = blues9, lower_color_value = 0, upper_color_value = 0.15)
+```

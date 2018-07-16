@@ -23,8 +23,6 @@ vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, l
 
   ## save input
   data <- as.data.frame(data)
-  name_x <- name_xaxis
-  name_y <- name_yaxis
 
   # fill values if no parameters are chosen
   if(is.null(lower_color_value)){
@@ -33,7 +31,16 @@ vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, l
   if(is.null(upper_color_value)){
     upper_color_value <- 1
   }
-
+  if (is.null(name_xaxis)){
+    name_xaxis <- "allele 2"
+  }
+  if (is.null(name_yaxis)){
+    name_yaxis <- "allele 1"
+  }
+  if (is.null(color)){
+    # grey values: probability = 1 is black, prob = 0 is white
+    color <- grey.colors(256, start = 1, end = 0)
+  }
 
   library(assertive)
   ## check input data
@@ -50,7 +57,7 @@ vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, l
     message("Color vector must have more than one element!")
     return()
   # check if names of x- and y-axis are characters
-  } else if((!is.null(name_x) && !is.character(name_x)) || (!is.null(name_y) && !is.character(name_y)) ){
+  } else if((!is.character(name_xaxis)) || !is.character(name_yaxis) || length(name_xaxis) > 1 || length(name_yaxis) > 1){
     message("Name_xaxis and name_yaxis must be characters!")
     return()
   # check if lower_color_value is a number
@@ -146,9 +153,11 @@ vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, l
           # binwidth: regulate size of dots, binaxis: direction to group dots
           # stackdir: dots in the center of squares, color: regulate the lines around the dots
           geom_dotplot(aes(fill = prob$real_prob), binwidth = 0.90, binaxis = "y", stackdir = 'center', color = 0.001) +
+          # take color and spread it from lower to upper color value
+          scale_fill_gradientn(colours = color, limits = c(lower_color_value, upper_color_value)) +
 
           # title of legend, title of y-axis
-          labs(fill = "probability", x = "allele 2", y = "allele 1") +
+          labs(fill = "probability", x = name_xaxis, y = name_yaxis) +
 
           # put x-axis to the top of the plot
           scale_x_discrete(position = "top", expand = c(0,0)) +
@@ -161,30 +170,6 @@ vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, l
           # put title of the legend to the top, so it is readable
           guides(fill = guide_legend(title.position = "top"))
 
-
-
-
-
- # if no parameter for color take grey values
- if (is.null(color)){
-   # grey values: probability = 1 is black, prob = 0 is white
-   color <- grey.colors(256, start = 1, end = 0)
-   # spread colors from probability 0 to 1
-   p <- p + scale_fill_gradientn(colours = color, limits = c(lower_color_value, upper_color_value))
- }else{
- # else take color and spread it from probability 0 to 1
-   p <- p + scale_fill_gradientn(colours = color, limits = c(lower_color_value, upper_color_value))
- }
-
- # if new name for x-axis is given in parameters
- if(!is.null(name_x)){
-   p <- p + labs(x = name_x)
- }
-
- # if new name for y-axis is given in parameters
- if(!is.null(name_y)){
-   p <- p + labs(y = name_y)
- }
 
   ## calculate Chi-Squared-Test and put result into plot:
   chi <- chisq.test(x = data$allel1, y = data$allel2, correct = FALSE)

@@ -48,6 +48,14 @@ test_that("color parameter input", {
   expect_message(vasarely(testdata, list("yellow", "red")), "Color data must be a character vector!")
   })
 
+context("axis")
+test_that("x_axis and y_axis are a character", {
+  expect_message(vasarely(testdata, name_xaxis = 2), "Name_xaxis and name_yaxis must be characters!")
+  expect_message(vasarely(testdata, name_yaxis = 2), "Name_xaxis and name_yaxis must be characters!")
+  expect_message(vasarely(testdata, name_xaxis = c("a", "b")), "Name_xaxis and name_yaxis must be characters!")
+  expect_message(vasarely(testdata, name_yaxis = c("a", "b")), "Name_xaxis and name_yaxis must be characters!")
+})
+
 context("greyvalueparameter")
 test_that("upper and lower grey value parameters work", {
   # value is not a number
