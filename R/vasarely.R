@@ -6,7 +6,8 @@
 #' @param name_yaxis The optional title for the y-axis of the plot.
 #' @param lower_color_value The lower limit for spreading the color over the probability values. It must be a number between 0 and 1.
 #' @param upper_color_value The upper limit for spreading the color over the probability values. It must be a number between 0 and 1.
-#'
+#' @export
+#' @import ggplot2 assertive forcats
 #' @return returns the calculated vasarely chart of the input data
 #'
 #' @examples
@@ -17,6 +18,7 @@
 #'
 #' # use function
 #' vasarely(data = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+#'
 
 
 vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, lower_color_value = NULL, upper_color_value = NULL){

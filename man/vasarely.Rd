@@ -34,4 +34,5 @@ data <- data.frame(a1, a2)
 
 # use function
 vasarely(data = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+
 }
