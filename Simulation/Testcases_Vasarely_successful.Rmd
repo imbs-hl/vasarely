@@ -1,0 +1,66 @@
+---
+title: "Vasarely Tests"
+author: "Alexandra Banach 649005"
+date: "29 Juni 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/Simulation")
+library("vasarely")
+
+## load different testdata
+testdata <- as.data.frame(read.csv("testdata5"))
+#testdata with more than one column
+testdata_more_columns <- as.data.frame(read.csv("testdata"))
+# testdata with less than two columns
+testdata_less_columns <- as.data.frame(read.csv("testdata_new"))
+testdata_less_columns$allel2 <- NULL
+#example
+a1 <- c(rep("A", each = 25), rep("B", each = 75))
+a2 <- c(rep("A", each = 50), rep("B", each = 50))
+example <- data.frame(a1, a2)
+#testdata with numbers
+a <- rep(c(1:10), each = 10)
+b <- sample(c(1:10), 100, replace = TRUE)
+numbers <- data.frame(a, b)
+```
+Beispiel aus Dokumentation:
+```{r}
+vasarely(example)
+  
+```
+allgemeine Testdaten:
+```{r}
+vasarely(testdata)
+```
+Beispiel mit Zahlen:
+```{r}
+vasarely(numbers)
+```
+Testdaten mit color-Parameter:
+```{r}
+vasarely(testdata, blues9)
+```
+Beispiel aus Dokumentation mit oberem Farbwert fuer Spreizung:
+```{r}
+vasarely(example, upper_color_value = 0.9)
+```
+Beispiel aus Dokumentation mit unterem Farbwert fuer Spreizung:
+```{r}
+vasarely(example, lower_color_value = 0.1)
+```
+Beispiel aus Dokumentation mit beiden Farbwerten fuer Spreizung
+```{r}
+vasarely(example, lower_color_value = 0.1, upper_color_value = 0.9)
+```
+Beispiel: Alle moeglichen Parameter wurden uebergeben: 
+```{r}
+vasarely(data = example, color = blues9, name_xaxis = "a2", name_yaxis = "a1", 
+         lower_color_value = 0.1, upper_color_value = 0.9)
+```
+Testdaten: 
+```{r}
+vasarely(testdata, color = blues9, lower_color_value = 0, upper_color_value = 0.15)
+```
