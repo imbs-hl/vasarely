@@ -1,9 +1,9 @@
 ## load different testdata
-testdata <- as.data.frame(read.csv("testdata5"))
+testdata <- as.data.frame(read.csv("testdata_two_columns"))
 #testdata with more than one column
-testdata_more_columns <- as.data.frame(read.csv("testdata"))
+testdata_more_columns <- as.data.frame(read.csv("testdata_three_columns"))
 # testdata with less than two columns
-testdata_less_columns <- as.data.frame(read.csv("testdata_new"))
+testdata_less_columns <- testdata
 testdata_less_columns$allel2 <- NULL
 #example
 a1 <- c(rep("A", each = 25), rep("B", each = 75))

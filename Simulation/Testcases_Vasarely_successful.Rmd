@@ -11,11 +11,11 @@ setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/Simulation")
 library("vasarely")
 
 ## load different testdata
-testdata <- as.data.frame(read.csv("testdata5"))
+testdata <- as.data.frame(read.csv("testdata_two_columns"))
 #testdata with more than one column
-testdata_more_columns <- as.data.frame(read.csv("testdata"))
+testdata_more_columns <- as.data.frame(read.csv("testdata_three_columns"))
 # testdata with less than two columns
-testdata_less_columns <- as.data.frame(read.csv("testdata_new"))
+testdata_less_columns <- testdata
 testdata_less_columns$allel2 <- NULL
 #example
 a1 <- c(rep("A", each = 25), rep("B", each = 75))
@@ -63,4 +63,13 @@ vasarely(data = example, color = blues9, name_xaxis = "a2", name_yaxis = "a1",
 Testdaten: 
 ```{r}
 vasarely(testdata, color = blues9, lower_color_value = 0, upper_color_value = 0.15)
+```
+Testdata1
+```{r}
+vasarely(testdata)
+```
+
+Testdata2
+```{r}
+vasarely(testdata2)
 ```
