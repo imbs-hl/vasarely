@@ -64,12 +64,3 @@ Testdaten:
 ```{r}
 vasarely(testdata, color = blues9, lower_color_value = 0, upper_color_value = 0.15)
 ```
-Testdata1
-```{r}
-vasarely(testdata)
-```
-
-Testdata2
-```{r}
-vasarely(testdata2)
-```
