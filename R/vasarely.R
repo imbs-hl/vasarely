@@ -25,7 +25,6 @@ vasarely <- function(data, color = grey.colors(256, start = 1, end = 0), name_xa
   ## save input
   data <- as.data.frame(data)
 
-
   library(assertive)
   ## check input data
   # check if input data have to columns
@@ -71,13 +70,16 @@ vasarely <- function(data, color = grey.colors(256, start = 1, end = 0), name_xa
   # name columns to work with
   colnames(data) <- c("allel1", "allel2")
 
+
   ## compute a priori probability
   # get number of each allel in our two allels
-  num_allel <- t(table(data$allel1) + table(data$allel2))
+  #num_allel <- t(table(data$allel1) + table(data$allel2))
+  num_allel <- t(table(c(as.vector(data$allel1), as.vector(data$allel2))))
   # get a total number of all allels
   num_all_allels <- ncol(data) * nrow(data)
   # compute
   a_priori_prob <- as.vector(num_allel / num_all_allels)
+
 
 
   ## compute expected probability
@@ -167,13 +169,16 @@ vasarely <- function(data, color = grey.colors(256, start = 1, end = 0), name_xa
   return(list)
 }
 
+#create example
 a1 <- c(rep("A", each = 25), rep("B", each = 75))
 a2 <- c(rep("A", each = 50), rep("B", each = 50))
 data <- data.frame(a1, a2)
+vasarely(data)
 
-vasarely_list <- vasarely(data = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
-vasarely_plot <- vasarely_list$plot + labs(title = "testplot555")
-vasarely_plot
+#first possibility: create vasarely list and take plot from it to add further plot functions
+#vasarely_list <- vasarely(data = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+#vasarely_plot <- vasarely_list$plot + labs(title = "testplot555")
+#vasarely_plot
 
-
-plot_vasarely(vasarely_plot) + labs(title = "Mein Vasarely-Chart")
+#second possibility: calculate vasarely list and put plot into plot function, add more functions for plotting
+#plot_vasarely(vasarely_plot) + labs(title = "Mein Vasarely-Chart")
