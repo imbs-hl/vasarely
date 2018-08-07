@@ -6,7 +6,8 @@
 #' @param name_yaxis The optional title for the y-axis of the plot. Otherwise the y-axis is called "allele 1" as a genetic input is expected.
 #' @param lower_color_value The lower limit for spreading the color over the probability values. It must be a number between 0 and 1.
 #' @param upper_color_value The upper limit for spreading the color over the probability values. It must be a number between 0 and 1.
-#'
+#' @export
+#' @import ggplot2 assertive forcats
 #' @return returns a list of the vasarely chart and a list of the p-value and statistic of a chi-squared test.
 #'
 #' @examples
@@ -17,6 +18,7 @@
 #'
 #' # use function
 #' vasarely(data = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+#'
 
 
 vasarely <- function(data, color = grey.colors(256, start = 1, end = 0), name_xaxis = "allele 2", name_yaxis = "allele 1",
