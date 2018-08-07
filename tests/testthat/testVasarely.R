@@ -86,4 +86,8 @@ test_that("upper and lower grey value parameters work", {
   expect_message(vasarely(example, lower_color_value = 0.8, upper_color_value = 0.9), "Chosen limits for color_values do not correspond to calculated probabilities!")
   })
 
+#context("p-value")
+#test_that("p-value is between 0 and 1", {
+  #expect_that(vasarely(example),check.in.range(vasarely(example)$statistic_values$p_value, c(0,1)))
+#})
 #devtools::test()

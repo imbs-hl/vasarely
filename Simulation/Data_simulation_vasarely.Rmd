@@ -20,14 +20,14 @@ vasarely(vasarely_data1)
 ```
 marker with null alleles
 ```{r}
-a1 <- rep(letters, mal=10)
-a2 <- rep(letters, mal=10)
-a1 <- c(a1,sample(letters, 10, replace = TRUE))
-a2 <- c(a2,sample(letters, 10, replace = TRUE))
+a1 <- rep(letters, times=50)
+a2 <- rep(letters, times=50)
+a1 <- c(a1,sample(letters, 500, replace = TRUE))
+a2 <- c(a2,sample(letters, 500, replace = TRUE))
 vasarely_data2 <- data.frame(a1,a2)
 vasarely(vasarely_data2)
 ```
-Normal Marker, ten alleles, skaliert
+Normal Marker, ten alleles, scaled
 ```{r}
 vasarely(vasarely_data1, lower_color_value = 0, upper_color_value = 0.15)
 ```
@@ -39,7 +39,7 @@ a2 <- c(rep("A", each = 25), rep("B", each = 10),
 vasarely_data3 <- data.frame(a1,a2)
 vasarely(vasarely_data3)
 ```
-AB-deficit(corrected)
+AB-deficit(corrected): 25xAA, 25xAB, 20xBA, 40xBB
 ```{r}
 a1 <- c(rep("A", each = 50), rep("B", each = 60))
 a2 <- c(rep("A", each = 25), rep("B", each = 25),
@@ -76,17 +76,7 @@ allele_2 <- c(rep("B", each = 6), rep("C", each = 6), rep("D", each = 2),
 marker <- data.frame(allele_1, allele_2)
 vasarely(marker)
 ```
-next try
 ```{r}
-aa <- c(rep("A", each = 4), rep("B", each = 6))
-bb <- c(rep("B", each = 6), rep("A", each = 4))
-ab <- data.frame(aa, bb)
-
-s <- t(table(ab$aa) + table(ab$bb))
-print(s)
-t <- t(table(c(as.vector(ab$aa), as.vector(ab$bb))))
-print(t)
-vasarely(ab)
-#length(colnames(t(table(ab$aa) + table(ab$bb))))
-
+vasarely(vasarely_data1)$statistic_values$p_value
 ```
+
