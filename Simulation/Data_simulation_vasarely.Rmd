@@ -43,8 +43,50 @@ AB-deficit(corrected)
 ```{r}
 a1 <- c(rep("A", each = 50), rep("B", each = 60))
 a2 <- c(rep("A", each = 25), rep("B", each = 25),
-        rep("A", each = 20), rep("B", each = 40
-                                 ))
+        rep("A", each = 20), rep("B", each = 40))
 vasarely_data4 <- data.frame(a1,a2)
 vasarely(vasarely_data4)
+```
+marker D15S1012
+```{r}
+allele1 <- c(rep("A", each = 182), rep("B", each = 2), 
+             rep("C", each = 189), rep("D", each = 40), rep("F", each = 28))
+allele2 <- c(rep("A", each = 20), rep("C", each = 82), rep("D", each = 23),
+             rep("E", each = 1), rep("F", each = 54), rep("G", each = 2),
+             rep("C", each = 63), rep("D", each = 39), rep("E", each = 2),
+             rep("F", each = 82), rep("G", each = 5), rep("D", each = 8),
+             rep("F", each = 29), rep("G", each = 3), rep("F", each = 25),
+             rep("G", each = 3))
+marker_d15 <- data.frame(allele1, allele2)
+vasarely(marker_d15)
+
+```
+marker D15S971
+```{r}
+allele_1 <- c(rep("A", each = 24), rep("B", each = 154), 
+             rep("C", each = 9), rep("D", each = 26), 
+             rep("E", each = 37), rep("F", each = 2))
+allele_2 <- c(rep("B", each = 6), rep("C", each = 6), rep("D", each = 2),
+             rep("E", each = 8), rep("F", each = 2), rep("B", each = 48),
+             rep("C", each = 13), rep("D", each = 20), rep("E", each = 64),
+             rep("F", each = 9), rep("D", each = 1), rep("E", each = 4),
+             rep("F", each = 4), rep("D", each = 4), rep("E", each = 19),
+             rep("F", each = 3), rep("E", each = 26), rep("F", each = 11), 
+             rep("G", each =2))
+marker <- data.frame(allele_1, allele_2)
+vasarely(marker)
+```
+next try
+```{r}
+aa <- c(rep("A", each = 4), rep("B", each = 6))
+bb <- c(rep("B", each = 6), rep("A", each = 4))
+ab <- data.frame(aa, bb)
+
+s <- t(table(ab$aa) + table(ab$bb))
+print(s)
+t <- t(table(c(as.vector(ab$aa), as.vector(ab$bb))))
+print(t)
+vasarely(ab)
+#length(colnames(t(table(ab$aa) + table(ab$bb))))
+
 ```

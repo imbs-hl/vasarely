@@ -11,20 +11,16 @@ setwd("C:/Users/limes/Documents/Semester6/Bachelorarbeit/vasarely/Simulation")
 library("vasarely")
 
 ## load different testdata
-testdata <- as.data.frame(read.csv("testdata5"))
+testdata <- as.data.frame(read.csv("testdata_two_columns"))
 #testdata with more than one column
-testdata_more_columns <- as.data.frame(read.csv("testdata"))
+testdata_more_columns <- as.data.frame(read.csv("testdata_three_columns"))
 # testdata with less than two columns
-testdata_less_columns <- as.data.frame(read.csv("testdata_new"))
+testdata_less_columns <- testdata
 testdata_less_columns$allel2 <- NULL
 #example
 a1 <- c(rep("A", each = 25), rep("B", each = 75))
 a2 <- c(rep("A", each = 50), rep("B", each = 50))
 example <- data.frame(a1, a2)
-#testdata with numbers
-a <- rep(c(1:10), each = 10)
-b <- sample(c(1:10), 100, replace = TRUE)
-numbers <- data.frame(a, b)
 ```
 Beispiel aus Dokumentation:
 ```{r}
@@ -34,10 +30,6 @@ vasarely(example)
 allgemeine Testdaten:
 ```{r}
 vasarely(testdata)
-```
-Beispiel mit Zahlen:
-```{r}
-vasarely(numbers)
 ```
 Testdaten mit color-Parameter:
 ```{r}

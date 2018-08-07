@@ -2,13 +2,13 @@
 #' @description vasarely produces a so called vasarely chart. E.g. for some (genetic) input data expected and real probabilty of (allel) frequencies can be calculated and plotted. For all possible combinations (of allels) the expected probabilty is described by a geom_raster plot. Each cell of the plot has a color which depends on the value of the expected probability. The real probability is described by a dot in the corresponding cell which also has a color that depends on the calculated probability. The chart and its colors for the two probabilities helps to check how expected and real probability differ from each other.
 #' @param data The input data to create the chart, e.g. genetic snp data. The input data must have exactly to columns.
 #' @param color The optional colors which should be used for the chart, e.g. blues9. Color must be a character vector with at least two colors. If color is NULL grey values will be taken.
-#' @param name_xaxis The optional title for the x-axis of the plot.
-#' @param name_yaxis The optional title for the y-axis of the plot.
+#' @param name_xaxis The optional title for the x-axis of the plot. Otherwise the x-axis is called "allele 2" as a genetic input is expected.
+#' @param name_yaxis The optional title for the y-axis of the plot. Otherwise the y-axis is called "allele 1" as a genetic input is expected.
 #' @param lower_color_value The lower limit for spreading the color over the probability values. It must be a number between 0 and 1.
 #' @param upper_color_value The upper limit for spreading the color over the probability values. It must be a number between 0 and 1.
 #' @export
 #' @import ggplot2 assertive forcats
-#' @return returns the calculated vasarely chart of the input data
+#' @return returns a list of the vasarely chart and a list of the p-value and statistic of a chi-squared test.
 #'
 #' @examples
 #' # create data
@@ -21,28 +21,11 @@
 #'
 
 
-vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, lower_color_value = NULL, upper_color_value = NULL){
+vasarely <- function(data, color = grey.colors(256, start = 1, end = 0), name_xaxis = "allele 2", name_yaxis = "allele 1",
+                     lower_color_value = 0, upper_color_value = 1){
 
   ## save input
   data <- as.data.frame(data)
-
-  # fill values if no parameters are chosen
-  if(is.null(lower_color_value)){
-    lower_color_value <- 0
-  }
-  if(is.null(upper_color_value)){
-    upper_color_value <- 1
-  }
-  if (is.null(name_xaxis)){
-    name_xaxis <- "allele 2"
-  }
-  if (is.null(name_yaxis)){
-    name_yaxis <- "allele 1"
-  }
-  if (is.null(color)){
-    # grey values: probability = 1 is black, prob = 0 is white
-    color <- grey.colors(256, start = 1, end = 0)
-  }
 
   library(assertive)
   ## check input data
@@ -89,13 +72,16 @@ vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, l
   # name columns to work with
   colnames(data) <- c("allel1", "allel2")
 
+
   ## compute a priori probability
   # get number of each allel in our two allels
-  num_allel <- t(table(data$allel1) + table(data$allel2))
+  #num_allel <- t(table(data$allel1) + table(data$allel2))
+  num_allel <- t(table(c(as.vector(data$allel1), as.vector(data$allel2))))
   # get a total number of all allels
   num_all_allels <- ncol(data) * nrow(data)
   # compute
   a_priori_prob <- as.vector(num_allel / num_all_allels)
+
 
 
   ## compute expected probability
@@ -176,7 +162,25 @@ vasarely <- function(data, color = NULL, name_xaxis = NULL, name_yaxis = NULL, l
   ## calculate Chi-Squared-Test and put result into plot:
   chi <- chisq.test(x = data$allel1, y = data$allel2, correct = FALSE)
   p <- p + labs(caption = paste0( "Chi-squared test: p-value ", round(x = chi$p.value, digits = 8), ", statistic ", round(x=chi$statistic, digits = 4)))
+  # create list with calculated data and plot
+  list <- list(statistic_values = list(p_value = chi$p.value, statistic = chi$statistic), plot = p)
 
+  ## call plotting function and return list
+  plot_vasarely(p)
 
- return(p)
+  return(list)
 }
+
+#create example
+a1 <- c(rep("A", each = 25), rep("B", each = 75))
+a2 <- c(rep("A", each = 50), rep("B", each = 50))
+data <- data.frame(a1, a2)
+vasarely(data)
+
+#first possibility: create vasarely list and take plot from it to add further plot functions
+#vasarely_list <- vasarely(data = data, color = c("yellow", "red"), name_xaxis = "a1", name_yaxis = "a2")
+#vasarely_plot <- vasarely_list$plot + labs(title = "testplot555")
+#vasarely_plot
+
+#second possibility: calculate vasarely list and put plot into plot function, add more functions for plotting
+#plot_vasarely(vasarely_plot) + labs(title = "Mein Vasarely-Chart")
