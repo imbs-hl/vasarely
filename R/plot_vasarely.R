@@ -19,5 +19,4 @@
 
 plot_vasarely <- function(vasarely_chart){
   vasarely_chart
-  return(vasarely_chart)
 }

@@ -75,7 +75,6 @@ vasarely <- function(data, color = grey.colors(256, start = 1, end = 0), name_xa
 
   ## compute a priori probability
   # get number of each allel in our two allels
-  #num_allel <- t(table(data$allel1) + table(data$allel2))
   num_allel <- t(table(c(as.vector(data$allel1), as.vector(data$allel2))))
   # get a total number of all allels
   num_all_allels <- ncol(data) * nrow(data)
