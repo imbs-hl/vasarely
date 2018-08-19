@@ -1,6 +1,9 @@
 #' plot_vasarely
-#' @description plot_vasarely produces the plot of a vasarely chart and allows to add further functions of ggplot2.
-#' @param vasarely_chart vasarely chart which has been calculated by the function vasarely
+#' @description plot_vasarely produces the plot of
+#' a vasarely chart and allows to add further
+#' functions of ggplot2.
+#' @param vasarely_chart vasarely chart which has
+#' been calculated by the function vasarely
 #' @return returns the plotted vasarely chart
 #' @examples
 #' # create data
@@ -14,8 +17,10 @@
 #' # extract plot from list
 #' vasarely_plot <- vasarely$plot
 #'
-#' # put plot into plotting function and add further function of ggplot2
-#' plot_vasarely(vasarely_plot) + labs(title = "My vasarely chart")
+#' # put plot into plotting function and
+#' add further function of ggplot2
+#' plot_vasarely(vasarely_plot) +
+#' labs(title = "My vasarely chart")
 
 plot_vasarely <- function(vasarely_chart){
   vasarely_chart
