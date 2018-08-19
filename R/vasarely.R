@@ -100,8 +100,7 @@ vasarely <- function(data,
   } else if(!is.null(lower_color_value) &&
             !is.null(upper_color_value) &&
             lower_color_value >= upper_color_value){
-    message("lower_color_value must be smaller than
-            upper_color_ value!")
+    message("lower_color_value must be smaller than upper_color_ value!")
     return()
   }
 
@@ -165,8 +164,7 @@ vasarely <- function(data,
       minimum > upper_color_value) ||
      (maximum < lower_color_value &&
       maximum < upper_color_value)){
-    message("Chosen limits for color_values
-            do not correspond to calculated probabilities!")
+    message("Chosen limits for color_values do not correspond to calculated probabilities!")
     message(paste0("Your minimum probability is: ", minimum))
     message(paste0("Your maximum probability is: ", maximum))
     return()
