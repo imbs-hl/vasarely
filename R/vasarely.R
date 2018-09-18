@@ -253,9 +253,13 @@ vasarely <- function(data,
                                   round(x = chi$p.value, digits = 8),
                                   ", statistic ",
                                   round(x=chi$statistic, digits = 4)))
-  # create list with calculated data and plot
+    # delete columns in dataframe prob, they are not needed for returning values
+  prob$allel1 <- NULL
+  prob$allel2 <- NULL
+   # create list with calculated data and plot
   list <- list(statistic_values = list(p_value = chi$p.value,
                                        statistic = chi$statistic),
+               probabilities = prob,
                plot = p)
 
   ## call plotting function and return list
