@@ -150,6 +150,25 @@ vasarely <- function(data,
                 all = TRUE)
   prob[is.na(prob)] <- 0
 
+  # add real probabilities of heterozygotes so they have the same prob.
+  # two copies of prob, one is ordered by allel1 the other by allel2
+  prob1 <- prob[order(prob$allel1),]
+  prob2 <- prob[order(prob$allel2),]
+  # add prob1 and prob2 so heterozygotes have the same real prob.
+  prob3 <- as.data.frame(prob1$real_prob + prob2$real_prob)
+  colnames(prob3)[1] <- "real_prob"
+  # add allele combinations and column names
+  prob3$allel_comb <- prob$allel_comb
+  prob3$allel1 <- prob$allel1
+  prob3$allel2 <- prob$allel2
+  # correct homozygotes, their prob was doubled
+  prob3$real_prob <- ifelse(prob3$allel1 == prob3$allel2, prob3$real_prob / 2, prob3$real_prob)
+  # set double values of heterozygotes to 0
+  prob3$allel_comb_sorted <- sapply(lapply(strsplit(prob3$allel_comb, " "), sort),paste,collapse=" ")
+  prob3$real_prob <- ifelse(prob3$allel_comb == prob3$allel_comb_sorted, prob3$real_prob , 0)
+  # replace values in prob
+  prob$real_prob <- prob3$real_prob
+
 
  # check if probability values correspond to the chosen limits for
  # spreading the colors
@@ -244,3 +263,9 @@ vasarely <- function(data,
 
   return(list)
 }
+
+a1 <- c(rep("A", each = 50), rep("B", each = 60), rep("C", each = 20), rep("D", each = 80))
+a2 <- c(rep("A", each = 25), rep("B", each = 25),
+        rep("A", each = 20), rep("B", each = 40), rep("C", each = 60), rep("D", each = 40))
+vasarely_data4 <- data.frame(a1,a2)
+vasarely(vasarely_data4)
