@@ -249,7 +249,7 @@ vasarely <- function(data,
                     y = data$allel2,
                     correct = FALSE)
   p <- p + labs(caption = paste0( "Chi-squared test: p-value ",
-                                  round(x = chi$p.value, digits = 8),
+                                  chi$p.value,
                                   ", statistic ",
                                   round(x=chi$statistic, digits = 4)))
    # delete columns in dataframe prob,
@@ -267,9 +267,8 @@ vasarely <- function(data,
 
   return(list)
 }
-
-a1 <- c(rep("A", each = 50), rep("B", each = 60), rep("C", each = 20), rep("D", each = 80))
-a2 <- c(rep("A", each = 25), rep("B", each = 25),
-        rep("A", each = 20), rep("B", each = 40), rep("C", each = 60), rep("D", each = 40))
-vasarely_data4 <- data.frame(a1,a2)
-vasarely(vasarely_data4)
+a1 <- c(rep("A", each = 25), rep("B", each = 75))
+a2 <- c(rep("A", each = 50), rep("B", each = 50))
+data <- data.frame(a1, a2)
+vasarely(data = data, color = c("yellow", "red"),
+name_xaxis = "a1", name_yaxis = "a2")
