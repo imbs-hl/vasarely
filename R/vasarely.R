@@ -158,14 +158,13 @@ vasarely <- function(data,
   prob3 <- as.data.frame(prob1$real_prob + prob2$real_prob)
   colnames(prob3)[1] <- "real_prob"
   # add allele combinations and column names
-  prob3$allel_comb <- prob$allel_comb
   prob3$allel1 <- prob$allel1
   prob3$allel2 <- prob$allel2
   # correct homozygotes, their prob was doubled
-  prob3$real_prob <- ifelse(prob3$allel1 == prob3$allel2, prob3$real_prob / 2, prob3$real_prob)
-  # set double values of heterozygotes to 0
-  prob3$allel_comb_sorted <- sapply(lapply(strsplit(prob3$allel_comb, " "), sort),paste,collapse=" ")
-  prob3$real_prob <- ifelse(prob3$allel_comb == prob3$allel_comb_sorted, prob3$real_prob , 0)
+  prob3$real_prob <- ifelse(prob3$allel1 ==
+                              prob3$allel2,
+                            prob3$real_prob / 2,
+                            prob3$real_prob)
   # replace values in prob
   prob$real_prob <- prob3$real_prob
 
@@ -253,7 +252,8 @@ vasarely <- function(data,
                                   round(x = chi$p.value, digits = 8),
                                   ", statistic ",
                                   round(x=chi$statistic, digits = 4)))
-    # delete columns in dataframe prob, they are not needed for returning values
+   # delete columns in dataframe prob,
+   # they are not needed for returning values
   prob$allel1 <- NULL
   prob$allel2 <- NULL
    # create list with calculated data and plot
