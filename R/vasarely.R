@@ -267,8 +267,3 @@ vasarely <- function(data,
 
   return(list)
 }
-a1 <- c(rep("A", each = 25), rep("B", each = 75))
-a2 <- c(rep("A", each = 50), rep("B", each = 50))
-data <- data.frame(a1, a2)
-vasarely(data = data, color = c("yellow", "red"),
-name_xaxis = "a1", name_yaxis = "a2")
