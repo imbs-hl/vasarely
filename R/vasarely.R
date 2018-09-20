@@ -249,7 +249,7 @@ vasarely <- function(data,
   # calculate degrees of freedom
   df <- (sqrt(nrow(chi_data)) - 1)^2
   # calculate p-value
-  chi_p_value <- 1 - pchisq(chi_statistic, df = df)
+  chi_p_value <- pchisq(chi_statistic, df = df, lower.tail = FALSE)
   # put result into plot
   # if p-value > 0.00005 take rounded values, else p-value as e-style
   if (chi_p_value > 0.00005){
