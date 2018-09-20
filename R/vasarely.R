@@ -105,7 +105,6 @@ vasarely <- function(data,
   }
 
 
-
   # name columns to work with
   colnames(data) <- c("allel1", "allel2")
 
@@ -157,16 +156,12 @@ vasarely <- function(data,
   # add prob1 and prob2 so heterozygotes have the same real prob.
   prob3 <- as.data.frame(prob1$real_prob + prob2$real_prob)
   colnames(prob3)[1] <- "real_prob"
-  # add allele combinations and column names
-  prob3$allel1 <- prob$allel1
-  prob3$allel2 <- prob$allel2
-  # correct homozygotes, their prob was doubled
-  prob3$real_prob <- ifelse(prob3$allel1 ==
-                              prob3$allel2,
-                            prob3$real_prob / 2,
-                            prob3$real_prob)
+  # real probs for homozygotes were doubled and have to be corrected
+  # real probs for heterozygotes have to be split for both possible combinations
+  prob3$real_prob <- prob3$real_prob / 2
   # replace values in prob
   prob$real_prob <- prob3$real_prob
+
 
 
  # check if probability values correspond to the chosen limits for
@@ -245,20 +240,38 @@ vasarely <- function(data,
 
 
   ## calculate Chi-Squared-Test and put result into plot:
-  chi <- chisq.test(x = data$allel1,
-                    y = data$allel2,
-                    correct = FALSE)
+  chi_data <- prob
+  # calculate statistic for each genotype
+  chi_data$chi <- (chi_data$expected_prob - chi_data$real_prob)^2 /
+    chi_data$expected_prob
+  # add all statistic terms
+  chi_statistic <- sum(chi_data$chi) * nrow(data)
+  # calculate degrees of freedom
+  df <- (sqrt(nrow(chi_data)) - 1)^2
+  # calculate p-value
+  chi_p_value <- 1 - pchisq(chi_statistic, df = df)
+  # put result into plot
+  # if p-value > 0.00005 take rounded values, else p-value as e-style
+  if (chi_p_value > 0.00005){
+    p <- p + labs(caption = paste0( "Chi-squared test: p-value ",
+                                    sprintf("%.4f", x = chi_p_value),
+                                    ", statistic ",
+                                    sprintf("%.2f", x = chi_statistic)))
+  } else {
   p <- p + labs(caption = paste0( "Chi-squared test: p-value ",
-                                  chi$p.value,
+                                  format(x = chi_p_value, scientific=T, digits=4),
                                   ", statistic ",
-                                  round(x=chi$statistic, digits = 4)))
-   # delete columns in dataframe prob,
-   # they are not needed for returning values
+                                  sprintf("%.2f", x = chi_statistic)))}
+
+  ## prepare list which should be returned
+  # delete columns in dataframe prob,
+  # they are not needed for returning values
   prob$allel1 <- NULL
   prob$allel2 <- NULL
    # create list with calculated data and plot
-  list <- list(statistic_values = list(p_value = chi$p.value,
-                                       statistic = chi$statistic),
+
+  list <- list(statistic_values = list(p_value = chi_p_value,
+                                       statistic = chi_statistic),
                probabilities = prob,
                plot = p)
 
