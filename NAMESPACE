@@ -2,4 +2,5 @@
 
 export(vasarely)
 import(assertive)
+import(forcats)
 import(ggplot2)

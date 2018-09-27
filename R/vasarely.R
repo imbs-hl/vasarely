@@ -1,16 +1,16 @@
 #' vasarely chart
 #' @description vasarely produces a so called vasarely chart.
-#' E.g. for some (genetic) input data expected and real
-#' probabilty of (allel) frequencies can be calculated
-#' and plotted. For all possible combinations (of allels)
-#' the expected probability is described by a geom_raster
+#' E.g. for some (genetic) input data expected and observed
+#' relative frequencies of allele combinations can be calculated
+#' and plotted. For all possible combinations
+#' the expected relative frequency is described by a geom_raster
 #' plot. Each cell of the plot has a color which depends
-#' on the value of the expected probability. The real
-#' probability is described by a dot in the corresponding
+#' on the value of the expected relative frequcency. The real
+#' relative frequency is described by a dot in the corresponding
 #' cell which also has a color that depends on the
-#' calculated probability. The chart and its colors for
-#' the two probabilities helps to check how expected
-#' and real probability differ from each other.
+#' calculated relative frequency. The chart and its colors for
+#' the two relative frequencies help to check how expected
+#' and observed relative frequencies differ from each other.
 #' @param data The input data to create the chart,
 #' e.g. genetic snp data. The input data must have
 #' exactly to columns.
@@ -25,15 +25,16 @@
 #' the plot. Otherwise the y-axis is called "allele 1"
 #' as a genetic input is expected.
 #' @param lower_color_value The lower limit for
-#' spreading the color over the probability values.
+#' spreading the color over the relative frequencies values.
 #' It must be a number between 0 and 1.
 #' @param upper_color_value The upper limit for
-#' spreading the color over the probability values.
+#' spreading the color over the relative frequencies values.
 #' It must be a number between 0 and 1.
 #' @export
 #' @import ggplot2 assertive forcats
-#' @return returns a list of the vasarely chart and
-#' a list of the p-value and statistic of
+#' @return returns a list of the calculated relative
+#' frequencies, the number of observations, the vasarely
+#' chart and a list of the p-value and statistic of
 #' a chi-squared test.
 #'
 #' @examples
@@ -120,7 +121,7 @@ vasarely <- function(data,
 
 
 
-  ## compute expected probability
+  ## compute expected relative frequency
   expected_prob <- as.vector(a_priori_prob %*% t(a_priori_prob))
   prob_ex <- as.data.frame(expected_prob)
   # add possible allel combination to a new column
@@ -132,7 +133,7 @@ vasarely <- function(data,
 
 
 
-  ## compute real probability
+  ## compute observed relative frequency
   # new column with allel combination
   data$allel_combination <- paste(data$allel1,data$allel2)
   #compute
@@ -140,8 +141,8 @@ vasarely <- function(data,
                                       nrow(data))
   colnames(real_probability) <- c("allel_comb", "real_prob")
 
-  # check if there are missing allel combinations in real probability
-  # compared to expected, set values to 0
+  # check if there are missing allel combinations in observed
+  # relative frequencies compared to expected, set values to 0
   prob <- merge(x = prob_ex,
                 y = real_probability,
                 by.x = "allel_comb",
@@ -149,11 +150,11 @@ vasarely <- function(data,
                 all = TRUE)
   prob[is.na(prob)] <- 0
 
-  # add real probabilities of heterozygotes so they have the same prob.
+  # add observed relative frequencies of heterozygotes so they have the same prob.
   # two copies of prob, one is ordered by allel1 the other by allel2
   prob1 <- prob[order(prob$allel1),]
   prob2 <- prob[order(prob$allel2),]
-  # add prob1 and prob2 so heterozygotes have the same real prob.
+  # add prob1 and prob2 so heterozygotes have the same real relative frequency
   prob3 <- as.data.frame(prob1$real_prob + prob2$real_prob)
   colnames(prob3)[1] <- "real_prob"
   # real probs for homozygotes were doubled and have to be corrected
@@ -164,7 +165,7 @@ vasarely <- function(data,
 
 
 
- # check if probability values correspond to the chosen limits for
+ # check if relative frequency values correspond to the chosen limits for
  # spreading the colors
   min_real <- min(prob$real_prob)
   min_expected <- min(prob$expected_prob)
@@ -177,13 +178,13 @@ vasarely <- function(data,
       minimum > upper_color_value) ||
      (maximum < lower_color_value &&
       maximum < upper_color_value)){
-    message("Chosen limits for color_values do not correspond to calculated probabilities!")
-    message(paste0("Your minimum probability is: ", minimum))
-    message(paste0("Your maximum probability is: ", maximum))
+    message("Chosen limits for color_values do not correspond to calculated relative frequencies!")
+    message(paste0("Your minimum relative frequency is: ", minimum))
+    message(paste0("Your maximum relative frequency is: ", maximum))
     return()
   }
 
-  ## create plot for expected and real probability
+  ## create plot for expected and observed relative frequencies
   ## with geom_reaster and geom_dotplot
 
   # libraries needed for plotting
@@ -197,12 +198,12 @@ vasarely <- function(data,
   p <- ggplot(prob, aes(x = prob_ex$allel2,
                         y = forcats::fct_rev(prob_ex$allel1))) +
 
-          # create plot with squares for the expected probability,
+          # create plot with squares for the expected relative frequency,
           geom_raster(aes(fill = prob$expected_prob),
                       hjust = 0.5,
                       vjust = 0.5) +
 
-          # create plot with dots for the real probability,
+          # create plot with dots for the observed relative frequency,
           # binwidth: regulate size of dots,
           # binaxis: direction to group dots
           # stackdir: dots in the center of squares#
@@ -254,25 +255,30 @@ vasarely <- function(data,
   # if p-value > 0.00005 take rounded values, else p-value as e-style
   if (chi_p_value > 0.00005){
     p <- p + labs(caption = paste0( "Chi-squared test: p-value ",
-                                    sprintf("%.4f", x = chi_p_value),
+                                    sprintf("%.4f",
+                                            x = chi_p_value),
                                     ", statistic ",
-                                    sprintf("%.2f", x = chi_statistic)))
+                                    sprintf("%.2f",
+                                            x = chi_statistic)))
   } else {
   p <- p + labs(caption = paste0( "Chi-squared test: p-value ",
-                                  format(x = chi_p_value, scientific=T, digits=4),
+                                  format(x = chi_p_value,
+                                         scientific = T,
+                                         digits=4),
                                   ", statistic ",
-                                  sprintf("%.2f", x = chi_statistic)))}
+                                  sprintf("%.2f",
+                                          x = chi_statistic)))}
 
   ## prepare list which should be returned
   # delete columns in dataframe prob,
   # they are not needed for returning values
   prob$allel1 <- NULL
   prob$allel2 <- NULL
-   # create list with calculated data and plot
-
+  # create list with calculated data and plot
   list <- list(statistic_values = list(p_value = chi_p_value,
                                        statistic = chi_statistic),
-               probabilities = prob,
+               rel_frequencies = prob,
+               number_observations = nrow(data),
                plot = p)
 
   ## call plotting function and return list
