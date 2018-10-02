@@ -275,9 +275,11 @@ vasarely <- function(data,
   prob$allel1 <- NULL
   prob$allel2 <- NULL
   # create list with calculated data and plot
+  rel_frequencies <- prob
+  colnames(rel_frequencies) <- c("allel_comb", "expected_freq", "real_freq")
   list <- list(statistic_values = list(p_value = chi_p_value,
                                        statistic = chi_statistic),
-               rel_frequencies = prob,
+               rel_frequencies = rel_frequencies,
                number_observations = nrow(data),
                plot = p)
 
