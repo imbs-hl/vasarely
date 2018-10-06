@@ -167,12 +167,8 @@ vasarely <- function(data,
 
  # check if relative frequency values correspond to the chosen limits for
  # spreading the colors
-  min_real <- min(prob$real_prob)
-  min_expected <- min(prob$expected_prob)
-  max_real <- max(prob$real_prob)
-  max_expected <- max(prob$expected_prob)
-  minimum <- min(min_real, min_expected)
-  maximum <- max(max_real, max_expected)
+  minimum <- min(min(prob$real_prob), min(prob$expected_prob))
+  maximum <- max(max(prob$real_prob), max(prob$expected_prob))
 
   if((minimum > lower_color_value &&
       minimum > upper_color_value) ||
