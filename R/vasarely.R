@@ -60,13 +60,57 @@ vasarely <- function(data,
 
   # save input and prepare data
   data <- as.data.frame(data)
-  colnames(data) <- c("allel1", "allel2")
-  num_observation <- nrow(data)
 
   # check input parameters
-  check_parameters(data, color,
-                   name_xaxis, name_yaxis,
-                   lower_color_value,  upper_color_value)
+  library(assertive)
+  ## check input data
+  # check if input data have to columns
+  if(ncol(data) != 2){
+    message("Input data must have exactly two columns!")
+    return()
+    # check if color vector contains character
+  } else if(!is.character(color) || !is.vector(color)){
+    message("Color data must be a character vector!")
+    return()
+    # check if color vector has more than one element
+  } else if(length(color) < 2){
+    message("Color vector must have more than one element!")
+    return()
+    # check if names of x- and y-axis are characters
+  } else if((!is.character(name_xaxis)) ||
+            !is.character(name_yaxis) ||
+            length(name_xaxis) > 1 ||
+            length(name_yaxis) > 1){
+    message("Name_xaxis and name_yaxis must be characters!")
+    return()
+    # check if lower_color_value is a number
+  } else if(!is_a_number(lower_color_value)){
+    message("lower_color_value must be a number!")
+    return()
+    # check if lower_color_value is between 0 and 1
+  } else if(lower_color_value > 1 || lower_color_value < 0){
+    message("lower_color_value must be between 0 and 1!")
+    return()
+    # check if upper_color_value is a number
+  } else if(!is_a_number(upper_color_value)){
+    message("upper_color_value must be a number!")
+    return()
+    # check if upper_color_value is between 0 and 1
+  } else if(upper_color_value > 1 || upper_color_value < 0){
+    message("upper_color_value must be between 0 and 1!")
+    return()
+    # check if lower_color_value is smaller than upper_color_value
+  } else if(!is.null(lower_color_value) &&
+            !is.null(upper_color_value) &&
+            lower_color_value >= upper_color_value){
+    message("lower_color_value must be smaller than upper_color_ value!")
+    return()
+  }
+
+  # name columns to work with
+  colnames(data) <- c("allel1", "allel2")
+  # compute number of observations
+  num_observation <- nrow(data)
 
   # compute a priori probability
   a_priori_prob <- a_priori(data)
@@ -92,7 +136,19 @@ vasarely <- function(data,
 
   # check if relative frequency values correspond to the
   # chosen limits for spreading the colors
-  check_prob(prob, lower_color_value, upper_color_value)
+  # find minimum and maximum prob
+  minimum <- min(min(prob$real_prob), min(prob$expected_prob))
+  maximum <- max(max(prob$real_prob), max(prob$expected_prob))
+  # check if corresponding to color values
+  if((minimum > lower_color_value &&
+      minimum > upper_color_value) ||
+     (maximum < lower_color_value &&
+      maximum < upper_color_value)){
+    message("Chosen limits for color_values do not correspond to calculated relative frequencies!")
+    message(paste0("Your minimum relative frequency is: ", minimum))
+    message(paste0("Your maximum relative frequency is: ", maximum))
+    return()
+  }
 
   # calculate chi-squared-test
   chi_statistic <- chi_statistic(prob) * num_observation
